@@ -1,0 +1,22 @@
+// REM Functions
+@function rem($size) {
+    $remSize: calc($size / 16px);
+    @return calc($remSize * 1rem);
+}
+
+// EM Functions
+@function em($pixels, $context: 16px) {
+    @return calc(($pixels/$context) * 1em);
+}
+
+@function lh($pixels, $context: 16px) {
+    @return calc($pixels/$context);
+}
+
+@function darkenColor($color, $amount: 15%) {
+    @return darken($color, $amount);
+}
+
+@function lightenColor($color, $amount: 10%) {
+    @return lighten($color, $amount);
+}

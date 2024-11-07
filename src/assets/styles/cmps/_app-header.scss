@@ -1,0 +1,28 @@
+header {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	place-items: center;
+
+	& .logo-container {
+		display: flex;
+		justify-self: start;
+
+		& .logo {
+			padding-right: 1em;
+			object-fit: contain;
+			height: 48px;
+		}
+	}
+
+	& h1 {
+		place-self: center;
+	}
+
+	& nav {
+		place-self: end;
+	}
+
+	button {
+		margin-left: auto;
+	}
+}

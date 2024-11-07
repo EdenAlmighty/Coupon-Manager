@@ -1,0 +1,23 @@
+#root {
+	display: grid;
+	margin: 0 auto;
+	padding: 1em;
+	grid-template-areas:
+		"header header header header header"
+		"main main main main main"
+		"footer footer footer footer footer";
+	grid-template-columns: auto 1fr 1fr 1fr auto;
+	grid-template-rows: auto;
+}
+
+header {
+	grid-area: header;
+}
+
+main {
+	grid-area: main;
+}
+
+footer {
+	grid-area: footer;
+}

@@ -1,0 +1,77 @@
+/* Breakpoint mixins */
+
+@mixin for-mobile-layout {
+    @media (max-width: calc($mobile-breakpoint + 40px)) {
+        @content;
+    }
+}
+
+@mixin for-wide-layout {
+    @media (min-width: calc($normal-breakpoint + 40px)) {
+        @content;
+    }
+}
+
+@mixin hover-supported {
+    @media not all and (pointer: coarse) {
+        &:hover {
+            @content;
+        }
+    }
+}
+
+@mixin animation-style($name) {
+    position: absolute;
+    left: calc((100% - 150px) / 2);
+    right: calc((100% - 150px) / 2);
+    top: 0;
+    bottom: 0;
+    background-size: calc(150px * 75);
+    background-position: left center;
+    animation: $name calc(75s / 25) steps(75);
+    animation-fill-mode: forwards;
+}
+
+//Button styles
+@mixin button-styles($color, $bg-color, $border-color, $hover-bg-color, $hover-border-color, $hover-color: $color) {
+    font-family: l-semibold;
+    padding: em(10px) em(34px);
+    font-size: 1em;
+    line-height: lh(24px);
+    border-radius: 1em;
+    color: $color;
+    background-color: $bg-color;
+    border: 2px solid $border-color;
+    transition: all .1s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $hover-bg-color;
+        border: 2px solid lightenColor($hover-border-color, 20%);
+        color: $hover-color;
+    }
+
+    &:active {
+        background-color: darkenColor($hover-bg-color);
+        border: 2px solid $hover-border-color;
+        color: $hover-color;
+        transform: scale(.95);
+    }
+
+    &.disabled {
+        opacity: .5;
+        pointer-events: none
+    }
+}
+
+button {
+    @include button-styles($btn-txt, transparent, $btn-txt, $btn-txt, $btn-txt, $btn-txt-dark);
+
+    &.primary {
+        @include button-styles($btn-txt-dark, $btn-bgc, $btn-txt-dark, $btn-txt-dark, $btn-hover-primary, $btn-txt);
+    }
+
+    &.secondary {
+        @include button-styles($btn-txt-dark, $btn-bgc, $btn-txt, $btn-hover-sec, $btn-bgc-sec);
+    }
+}

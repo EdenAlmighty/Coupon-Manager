@@ -1,0 +1,116 @@
+@use "../setup/variables";
+* {
+	box-sizing: border-box;
+}
+
+html {
+	color: $txt-clr;
+	background-color: $bgc-main;
+}
+
+body,
+html {
+	scroll-behavior: smooth;
+	height: 100%;
+}
+
+body {
+	font-family: l-semibold;
+	margin: 0;
+}
+
+p {
+	font-size: rem(18px);
+	line-height: lh(28px);
+}
+
+span {
+	font-size: em(15px);
+	line-height: lh(25px);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+.icon {
+	height: em(72px);
+	width: em(72px);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+	font-family: l-bold;
+}
+
+h1 {
+	font-size: $font-size-h1;
+}
+
+h2 {
+	font-size: $font-size-h2;
+}
+
+h3 {
+	font-size: $font-size-h3;
+}
+
+h4 {
+	font-size: $font-size-h4;
+}
+
+h5 {
+	font-size: $font-size-h5;
+}
+
+// img {
+//     width: 100%;
+// }
+
+a {
+	text-decoration: none;
+	font-size: rem(18px);
+	color: $txt-clr;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: $sb-clr;
+}
+
+li {
+	list-style: none;
+}
+
+.show {
+	display: block;
+}
+
+.hide {
+	display: none;
+}
+
+.active {
+	color: #323338;
+}
+
+@include for-mobile-layout {
+	::-webkit-scrollbar {
+		display: none;
+	}
+}

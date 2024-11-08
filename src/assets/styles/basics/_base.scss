@@ -6,6 +6,7 @@
 html {
 	color: $txt-clr;
 	background-color: $bgc-main;
+	font-family: p-regular;
 }
 
 body,
@@ -15,7 +16,6 @@ html {
 }
 
 body {
-	font-family: l-semibold;
 	margin: 0;
 }
 
@@ -48,7 +48,7 @@ h6 {
 	padding: 0;
 	border: 0;
 	vertical-align: baseline;
-	font-family: l-bold;
+	font-family: p-bold;
 }
 
 h1 {

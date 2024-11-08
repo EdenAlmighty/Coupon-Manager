@@ -1,22 +1,27 @@
-// CouponForm.js
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { couponService } from '../services/coupon.service'
 import { CustomInput } from './CustomInput'
 
-export function CouponForm({ onSave }) {
-    const [coupon, setCoupon] = useState(couponService.getEmptyCoupon())
+export function CouponForm({ coupon, onSave }) {
+    const [formCoupon, setFormCoupon] = useState(couponService.getEmptyCoupon())
+
+    useEffect(() => {
+        if (coupon) {
+            setFormCoupon(coupon)
+        }
+    }, [coupon])
 
     function handleChange({ target }) {
         const { name, value } = target
-        setCoupon({ ...coupon, [name]: value })
+        setFormCoupon({ ...formCoupon, [name]: value })
     }
 
     async function handleSubmit(event) {
         event.preventDefault()
         try {
-            await couponService.save(coupon)
+            await couponService.save(formCoupon)
             onSave()
-            setCoupon(couponService.getEmptyCoupon())
+            setFormCoupon(couponService.getEmptyCoupon())
         } catch (err) {
             console.error("Failed to save coupon:", err)
         }
@@ -27,21 +32,21 @@ export function CouponForm({ onSave }) {
             <CustomInput
                 label="Code:"
                 name="code"
-                value={coupon.code}
+                value={formCoupon.code}
                 onChange={handleChange}
                 required
             />
             <CustomInput
                 label="Description:"
                 name="description"
-                value={coupon.description}
+                value={formCoupon.description}
                 onChange={handleChange}
             />
             <CustomInput
                 label="Discount Type:"
                 type="select"
                 name="discountType"
-                value={coupon.discountType}
+                value={formCoupon.discountType}
                 onChange={handleChange}
                 options={[
                     { value: 'percentage', label: 'Percentage' },
@@ -52,14 +57,14 @@ export function CouponForm({ onSave }) {
                 label="Discount Value:"
                 type="number"
                 name="discountValue"
-                value={coupon.discountValue}
+                value={formCoupon.discountValue}
                 onChange={handleChange}
             />
             <CustomInput
                 label="Expiry Date:"
                 type="date"
                 name="expiryDate"
-                value={coupon.expiryDate}
+                value={formCoupon.expiryDate}
                 onChange={handleChange}
             />
             <button type="submit">Save Coupon</button>

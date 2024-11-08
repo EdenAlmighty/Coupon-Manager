@@ -2,7 +2,7 @@ import React from 'react'
 import { CouponPreview } from './CouponPreview'
 import { couponService } from '../services/coupon.service'
 
-export function CouponList({ coupons, onRemove }) {
+export function CouponList({ coupons, onRemove, onEdit }) {
     async function handleRemove(couponId) {
         try {
             await couponService.remove(couponId)
@@ -20,6 +20,9 @@ export function CouponList({ coupons, onRemove }) {
                         <CouponPreview coupon={coupon} />
                         <button className="delete-btn" onClick={() => handleRemove(coupon._id)}>
                             X
+                        </button>
+                        <button className="edit-btn" onClick={() => onEdit(coupon)}>
+                            Edit
                         </button>
                     </ul>
                 ))

@@ -6,33 +6,48 @@ import { CouponList } from "../components/CouponList"
 import { CouponForm } from "../components/CouponForm"
 
 export default function Home() {
-    const [coupons, setCoupons] = useState([])
+	const [coupons, setCoupons] = useState([])
+	const [couponToEdit, setCouponToEdit] = useState(null)
 
-    useEffect(() => {
-        loadCoupons()
-    }, [])
+	useEffect(() => {
+		loadCoupons()
+	}, [])
 
-    async function loadCoupons() {
-        try {
-            const coupons = await couponService.query()
-            setCoupons(coupons)
-        } catch (err) {
-            console.error("Failed to fetch coupons:", err)
-        }
-    }
+	async function loadCoupons() {
+		try {
+			const coupons = await couponService.query()
+			setCoupons(coupons)
+		} catch (err) {
+			console.error("Failed to fetch coupons:", err)
+		}
+	}
 
-    function handleRemove(couponId) {
-        setCoupons((prevCoupons) => prevCoupons.filter((coupon) => coupon._id !== couponId))
-    }
+	function handleRemove(couponId) {
+		setCoupons((prevCoupons) => prevCoupons.filter((coupon) => coupon._id !== couponId))
+	}
 
-    return (
-        <>
-            <AppHeader />
-            <main>
-                <CouponForm onSave={loadCoupons} />
-                <CouponList coupons={coupons} onRemove={handleRemove} />
-            </main>
-            <AppFooter />
-        </>
-    )
+	function handleEdit(coupon) {
+		setCouponToEdit(coupon)
+	}
+
+	function handleSave(coupon) {
+		setCouponToEdit(null)
+		loadCoupons()
+	}
+
+	return (
+		<>
+			<AppHeader />
+			<main>
+				<CouponForm
+					coupon={couponToEdit}
+					onSave={handleSave} />
+				<CouponList
+					coupons={coupons}
+					onRemove={handleRemove}
+					onEdit={handleEdit} />
+			</main>
+			<AppFooter />
+		</>
+	)
 }

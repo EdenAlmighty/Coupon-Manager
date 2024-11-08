@@ -30,7 +30,7 @@ export default function Home() {
 		setCouponToEdit(coupon)
 	}
 
-	function handleSave(coupon) {
+	function handleSave() {
 		setCouponToEdit(null)
 		loadCoupons()
 	}

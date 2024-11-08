@@ -7,7 +7,14 @@ export function CouponForm({ coupon, onSave }) {
 
     useEffect(() => {
         if (coupon) {
-            setFormCoupon(coupon)
+            // Pre-fill the form when editing a coupon
+            setFormCoupon(coupon)  
+        } else {
+            // Default to percentage discount when creating new coupons
+            setFormCoupon(prev => ({
+                ...prev,
+                discountType: 'percentage'
+            }))
         }
     }, [coupon])
 

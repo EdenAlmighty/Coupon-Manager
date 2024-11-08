@@ -1,5 +1,6 @@
 import { storageService } from "./async-storage.service"
 import { utilService } from "./util.service"
+import defaultCoupons from "../../data/coupons.json"
 
 export const couponService = {
     query,
@@ -14,32 +15,46 @@ const STORAGE_KEY = 'coupon'
 
 async function query() {
     let coupons = await storageService.query(STORAGE_KEY)
-    if (!coupons || !coupons.length) {
-        await storageService.post(STORAGE_KEY, defaultCoupons)
-        coupons = defaultCoupons
+    console.log('coupons from service:', coupons)
+    try {
+        if (!coupons || !coupons.length) {
+            const newCoupons = defaultCoupons.map(coupon => ({
+                ...coupon,
+                _id: utilService.makeId(),
+            }))
+            console.log(' new coupons from service:', newCoupons)
+
+            await storageService.post(STORAGE_KEY, newCoupons)
+            coupons = newCoupons
+        }
+        console.log('coupons returned from service:', coupons)
+
+        return coupons
+    } catch (err) {
+        console.log(err)
+        throw err
     }
-    return coupons
 }
 
-async function getById(entityType, entityId) {
-    return storageService.get(entityType, entityId)
+async function getById(entityId) {
+    return storageService.get(STORAGE_KEY, entityId)
 }
 
-async function remove(entityType, entityId) {
-    return storageService.remove(entityType, entityId)
+async function remove(entityId) {
+    return storageService.remove(STORAGE_KEY, entityId)
 }
 
-async function save(entityType, coupon) {
-    if (coupon.id) {
-        return storageService.put(entityType, coupon)
+async function save(coupon) {
+    if (coupon._id) {
+        return storageService.put(STORAGE_KEY, coupon)
     } else {
-        return storageService.post(entityType, coupon)
+        return storageService.post(STORAGE_KEY, coupon)
     }
 }
 
 function getEmptyCoupon() {
     return {
-        id: utilService.makeId(),
+        // _id: utilService.makeId(),
         code: "DEFAULT10",
         description: "",
         discountType: "",
@@ -52,60 +67,3 @@ function getEmptyCoupon() {
         usageCount: 0,
     }
 }
-
-
-
-const defaultCoupons = [
-    {
-        id: utilService.makeId(),
-        code: "SUMMER10",
-        description: "10% off on orders above 90₪",
-        discountType: "percentage",
-        discountValue: 10,
-        expiryDate: "2024-12-31",
-        createdBy: "adminUser123",
-        createdAt: new Date().toISOString(),
-        isStackable: true,
-        usageLimit: 100,
-        usageCount: 0,
-    },
-    {
-        id: utilService.makeId(),
-        code: "WINTER15",
-        description: "15% off on orders above 150₪",
-        discountType: "percentage",
-        discountValue: 15,
-        expiryDate: "2024-12-31",
-        createdBy: "adminUser123",
-        createdAt: new Date().toISOString(),
-        isStackable: false,
-        usageLimit: 50,
-        usageCount: 0,
-    },
-    {
-        id: utilService.makeId(),
-        code: "FREESHIP",
-        description: "Free shipping on orders over 200₪",
-        discountType: "flat",
-        discountValue: 0,
-        expiryDate: "2024-11-30",
-        createdBy: "adminUser123",
-        createdAt: new Date().toISOString(),
-        isStackable: true,
-        usageLimit: 200,
-        usageCount: 0,
-    },
-    {
-        id: utilService.makeId(),
-        code: "HOLIDAY20",
-        description: "20% off sitewide for the holiday season",
-        discountType: "percentage",
-        discountValue: 20,
-        expiryDate: "2024-12-31",
-        createdBy: "adminUser123",
-        createdAt: new Date().toISOString(),
-        isStackable: false,
-        usageLimit: 50,
-        usageCount: 0,
-    }
-]

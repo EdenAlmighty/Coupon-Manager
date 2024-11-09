@@ -5,10 +5,8 @@ export default function AppHeader() {
         <header>
             <div className="logo-container">
                 <img src="/logo.png" alt="logo" className="logo" />
-                <h1>Header</h1>
+                <h1>Coupon Manager</h1>
             </div>
-            <h1>Header</h1>
-            <nav>Nav</nav>
         </header>
     )
 }

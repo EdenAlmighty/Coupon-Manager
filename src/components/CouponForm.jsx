@@ -4,11 +4,12 @@ import { CustomInput } from './CustomInput'
 
 export function CouponForm({ coupon, onSave }) {
     const [formCoupon, setFormCoupon] = useState(couponService.getEmptyCoupon())
+    const [error, setError] = useState('')
 
     useEffect(() => {
         if (coupon) {
             // Pre-fill the form when editing a coupon
-            setFormCoupon(coupon)  
+            setFormCoupon(coupon)
         } else {
             // Default to percentage discount when creating new coupons
             setFormCoupon(prev => ({
@@ -20,11 +21,30 @@ export function CouponForm({ coupon, onSave }) {
 
     function handleChange({ target }) {
         const { name, value } = target
-        setFormCoupon({ ...formCoupon, [name]: value })
+
+        if (name === 'discountType' && value === 'flat') {
+            setError('');
+        }
+
+        if (name === 'discountValue' && formCoupon.discountType === 'percentage') {
+            if (value > 100) {
+                setError('Discount cannot exceed 100%')
+            } else {
+                setError('')
+            }
+        }
+
+        setFormCoupon({
+            ...formCoupon,
+            [name]: name === 'discountValue' && value === '' ? '' : value,
+        })
     }
+
 
     async function handleSubmit(event) {
         event.preventDefault()
+        if (error) return
+
         try {
             await couponService.save(formCoupon)
             onSave()
@@ -34,47 +54,63 @@ export function CouponForm({ coupon, onSave }) {
         }
     }
 
+    function handleReset() {
+        setFormCoupon(couponService.getEmptyCoupon())
+        setError('')
+    }
+
     return (
-        <form onSubmit={handleSubmit}>
-            <CustomInput
-                label="Code:"
-                name="code"
-                value={formCoupon.code}
-                onChange={handleChange}
-                required
-            />
-            <CustomInput
-                label="Description:"
-                name="description"
-                value={formCoupon.description}
-                onChange={handleChange}
-            />
-            <CustomInput
-                label="Discount Type:"
-                type="select"
-                name="discountType"
-                value={formCoupon.discountType}
-                onChange={handleChange}
-                options={[
-                    { value: 'percentage', label: 'Percentage' },
-                    { value: 'flat', label: 'Flat' }
-                ]}
-            />
-            <CustomInput
-                label="Discount Value:"
-                type="number"
-                name="discountValue"
-                value={formCoupon.discountValue}
-                onChange={handleChange}
-            />
-            <CustomInput
-                label="Expiry Date:"
-                type="date"
-                name="expiryDate"
-                value={formCoupon.expiryDate}
-                onChange={handleChange}
-            />
-            <button type="submit">Save Coupon</button>
-        </form>
+        <div className="coupon-form-container">
+            {/* Buttons outside the form */}
+            <div className="form-actions">
+                <button type="submit" onClick={handleSubmit}>Save Coupon</button>
+                <button type="button" onClick={handleReset}>Undo</button>
+            </div>
+
+            {/* The Form itself */}
+            <form onSubmit={handleSubmit} className="coupon-form">
+                <CustomInput
+                    label="Code:"
+                    name="code"
+                    value={formCoupon.code}
+                    onChange={handleChange}
+                    required
+                />
+                <CustomInput
+                    label="Description:"
+                    name="description"
+                    value={formCoupon.description}
+                    onChange={handleChange}
+                />
+                <div className="discount-input-container">
+                    <CustomInput
+                        label="Discount Value:"
+                        type="number"
+                        name="discountValue"
+                        value={formCoupon.discountValue}
+                        onChange={handleChange}
+                    />
+                    {error && <p className="error-message">{error}</p>}
+                </div>
+                <CustomInput
+                    label="Discount Type:"
+                    type="select"
+                    name="discountType"
+                    value={formCoupon.discountType}
+                    onChange={handleChange}
+                    options={[
+                        { value: 'percentage', label: '%' },
+                        { value: 'flat', label: '₪' }
+                    ]}
+                />
+                <CustomInput
+                    label="Expiry Date:"
+                    type="date"
+                    name="expiryDate"
+                    value={formCoupon.expiryDate}
+                    onChange={handleChange}
+                />
+            </form>
+        </div>
     )
 }

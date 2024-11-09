@@ -1,0 +1,39 @@
+.custom-input {
+    position: relative;
+    label {
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        gap: em(5px);
+    }
+    
+    input,
+    select {
+        padding: em(10px) em(20px);
+        border-radius: .2em;
+        border: none;
+        transition: all .1s ease-in-out;
+
+        &:hover {
+            outline: 1px solid $clr-green;
+        }
+
+        &:focus {
+            outline: 2px solid $clr-green;
+        }
+    }
+
+    select,
+    input[type="date"] {
+        cursor: pointer;
+        font-family: p-regular;
+    }
+
+}
+.error-message {
+    position: absolute;
+    left: 0;
+    color: red;
+    font-size: em(8px);
+    margin-top: em(10px);
+}

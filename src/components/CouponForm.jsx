@@ -61,7 +61,7 @@ export function CouponForm({ coupon, onSave }) {
 
     return (
         <div className="coupon-form-container">
-                        {/* Buttons outside the form */}
+            {/* Buttons outside the form */}
             <div className="form-actions">
                 <button type="submit" onClick={handleSubmit}>Save Coupon</button>
                 <button type="button" onClick={handleReset}>Undo</button>

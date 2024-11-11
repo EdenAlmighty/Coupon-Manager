@@ -54,16 +54,15 @@ async function save(coupon) {
 
 function getEmptyCoupon() {
     return {
-        // _id: utilService.makeId(),
         code: "DEFAULT10",
         description: "",
         discountType: "",
         discountValue: "",
         expiryDate: "",
-        createdBy: "",
+        createdBy: "admin",
         createdAt: new Date().toISOString(),
-        isStackable: true,
-        usageLimit: 0,
+        isStackable: false,
+        usageLimit: 1,
         usageCount: 0,
     }
 }

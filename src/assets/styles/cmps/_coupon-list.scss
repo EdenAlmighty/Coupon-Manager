@@ -1,16 +1,84 @@
 .coupon-list-container {
-    ul {
-        list-style-type: none;
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0 em(10px);
+    table-layout: fixed;
 
-        li {
-            flex: 0 0 50%;
-            border: 1px solid grey;
-            padding: 1em;
-            display: flex;
-            align-items: flex-end;
-          }
+    tr {
+        background-color: lighten($bgc-main, $amount: 5);
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        padding: em(10px);
+        border-left: 1px solid lighten($bgc-main, $amount: 20);
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:first-of-type {
+            border-left: none;
+        }
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    /* Set fixed widths columns */
+    .createdBy,
+    .code,
+    .count,
+    .expire {
+        width: 10%;
+    }
+
+    .actions,
+    .discount,
+    .stackable,
+    .limit {
+        width: 8%;
+    }
+
+    .description {
+        width: 30%;
+        position: relative;
+    }
+
+    /* Row hover effect */
+    tbody tr:hover {
+        background-color: lighten($bgc-main, $amount: 10);
+        cursor: pointer;
+    }
+
+    /* Action Buttons */
+    .delete-btn,
+    .edit-btn {
+        margin: 0 5px;
+        padding: 5px 10px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .delete-btn {
+        background-color: #e74c3c;
+
+        :hover {
+            background-color: #c0392b;
+        }
+    }
+
+    .edit-btn {
+        background-color: #3498db;
+
+        :hover {
+            background-color: #2980b9;
+        }
     }
 }

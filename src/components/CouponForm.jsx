@@ -61,7 +61,7 @@ export function CouponForm({ coupon, onSave }) {
 
     return (
         <div className="coupon-form-container">
-            {/* Buttons outside the form */}
+                        {/* Buttons outside the form */}
             <div className="form-actions">
                 <button type="submit" onClick={handleSubmit}>Save Coupon</button>
                 <button type="button" onClick={handleReset}>Undo</button>
@@ -102,6 +102,20 @@ export function CouponForm({ coupon, onSave }) {
                         { value: 'percentage', label: '%' },
                         { value: 'flat', label: '₪' }
                     ]}
+                />
+                <CustomInput
+                    label="Is Stackable:"
+                    type="checkbox"
+                    name="isStackable"
+                    value={formCoupon.isStackable}
+                    onChange={handleChange}
+                />
+                <CustomInput
+                    label="Usage Limit:"
+                    type="number"
+                    name="usageLimit"
+                    value={formCoupon.usageLimit}
+                    onChange={handleChange}
                 />
                 <CustomInput
                     label="Expiry Date:"

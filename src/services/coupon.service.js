@@ -58,7 +58,7 @@ function getEmptyCoupon() {
         code: "DEFAULT10",
         description: "",
         discountType: "",
-        discountValue: 0,
+        discountValue: "",
         expiryDate: "",
         createdBy: "",
         createdAt: new Date().toISOString(),

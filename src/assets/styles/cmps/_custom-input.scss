@@ -1,16 +1,19 @@
 .custom-input {
     position: relative;
+
     label {
         display: flex;
         flex-direction: column;
         white-space: nowrap;
         gap: em(5px);
     }
-    
+
     input,
     select {
         padding: em(10px) em(20px);
         border-radius: .2em;
+        height: em(40px);
+
         border: none;
         transition: all .1s ease-in-out;
 
@@ -24,12 +27,13 @@
     }
 
     select,
-    input[type="date"] {
+    input[type="date"],
+    input[type="checkbox"] {
         cursor: pointer;
         font-family: p-regular;
     }
-
 }
+
 .error-message {
     position: absolute;
     left: 0;

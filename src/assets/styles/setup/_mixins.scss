@@ -34,7 +34,7 @@
 
 //Button styles
 @mixin button-styles($color, $bg-color, $border-color, $hover-bg-color, $hover-border-color, $hover-color: $color) {
-    font-family: l-semibold;
+    font-family: p-regular;
     padding: em(10px) em(34px);
     font-size: 1em;
     line-height: lh(24px);

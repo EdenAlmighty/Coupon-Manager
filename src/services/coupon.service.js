@@ -8,12 +8,13 @@ export const couponService = {
     remove,
     save,
     getEmptyCoupon,
-    getDefaultFilter
+    getDefaultFilter,
+    getDefaultSortBy
 }
 
 const STORAGE_KEY = 'coupon'
 
-async function query(filterBy = getDefaultFilter(), sortBy = { by: '', asc: 1 }) {
+async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy()) {
     let coupons = await storageService.query(STORAGE_KEY)
     console.log('coupons from service:', coupons)
     try {
@@ -63,14 +64,14 @@ async function query(filterBy = getDefaultFilter(), sortBy = { by: '', asc: 1 })
         }
 
         if (filterBy.expiryDate) {
-            const filterDate = new Date(filterBy.expiryDate);
-            coupons = coupons.filter(coupon => new Date(coupon.expiryDate) <= filterDate);
+            const filterDate = new Date(filterBy.expiryDate)
+            coupons = coupons.filter(coupon => new Date(coupon.expiryDate) <= filterDate)
         }
 
         if (sortBy.by) {
-            coupons.sort((a, b) => {
-                if (a[sortBy.by] < b[sortBy.by]) return sortBy.asc ? -1 : 1
-                if (a[sortBy.by] > b[sortBy.by]) return sortBy.asc ? 1 : -1
+            coupons = [...coupons].sort((a, b) => {
+                if (a[sortBy.by] < b[sortBy.by]) return sortBy.asc === 1 ? -1 : 1
+                if (a[sortBy.by] > b[sortBy.by]) return sortBy.asc === 1 ? 1 : -1
                 return 0
             })
         }
@@ -124,5 +125,12 @@ function getDefaultFilter() {
         usageLimit: null,
         usageCount: null,
         expiryDate: ''
+    }
+}
+
+function getDefaultSortBy() {
+    return {
+        by: '',
+        asc: 1
     }
 }

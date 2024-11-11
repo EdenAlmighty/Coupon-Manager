@@ -10,14 +10,15 @@ export default function Home() {
 	const [coupons, setCoupons] = useState([])
 	const [couponToEdit, setCouponToEdit] = useState(null)
 	const [filterBy, setFilterBy] = useState(couponService.getDefaultFilter())
+    const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
 
 	useEffect(() => {
 		loadCoupons()
-	}, [filterBy])
+	}, [filterBy,sortBy])
 
 	async function loadCoupons() {
 		try {
-			const coupons = await couponService.query(filterBy)
+			const coupons = await couponService.query(filterBy, sortBy)
 			setCoupons(coupons)
 		} catch (err) {
 			console.error("Failed to fetch coupons:", err)
@@ -41,6 +42,10 @@ export default function Home() {
 		setFilterBy(filterBy)
 	}
 
+	function handleSort(sortBy) {
+		setSortBy(sortBy)
+	}
+
 	return (
 		<>
 			<AppHeader />
@@ -55,7 +60,9 @@ export default function Home() {
 					coupons={coupons}
 					onRemove={handleRemove}
 					onEdit={handleEdit}
-					filterBy={filterBy} />
+					filterBy={filterBy}
+					onSort={handleSort}
+					sortBy={sortBy} />
 			</main>
 			<AppFooter />
 		</>

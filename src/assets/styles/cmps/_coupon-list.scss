@@ -40,7 +40,9 @@
     .discount,
     .stackable,
     .limit {
-        width: 8%;
+        width: 15%;
+        text-overflow: clip;
+
     }
 
     .description {

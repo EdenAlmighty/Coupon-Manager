@@ -3,13 +3,14 @@ import React from 'react'
 export function CustomInput({ label, type = 'text', name, value, onChange, options = [], error, ...rest }) {
     return (
         <div className="custom-input">
-            <label>
+            <label htmlFor={name}>
                 {label}
                 {type === 'select' ? (
                     <select
                         name={name}
+                        id={name}
                         value={value}
-                        onChange={onChange}
+                        onChange={(ev) => onChange(name, ev.target.value)}
                         {...rest}>
                         {options.map(option => (
                             <option key={option.value} value={option.value}>
@@ -24,7 +25,7 @@ export function CustomInput({ label, type = 'text', name, value, onChange, optio
                         value={value}
                         onChange={onChange}
                         {...rest}
-                        required
+                        required={type !== 'select'}
                     />
                 )}
             </label>

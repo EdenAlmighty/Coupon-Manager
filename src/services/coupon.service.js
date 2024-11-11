@@ -8,12 +8,12 @@ export const couponService = {
     remove,
     save,
     getEmptyCoupon,
+    getDefaultFilter
 }
 
 const STORAGE_KEY = 'coupon'
 
-
-async function query() {
+async function query(filterBy = getDefaultFilter(), sortBy = { by: '', asc: 1 }) {
     let coupons = await storageService.query(STORAGE_KEY)
     console.log('coupons from service:', coupons)
     try {
@@ -26,6 +26,53 @@ async function query() {
 
             await storageService.post(STORAGE_KEY, newCoupons)
             coupons = newCoupons
+        }
+
+        // Filter by all matching text types
+        if (filterBy.txt) {
+            const regex = new RegExp(filterBy.txt, 'i')
+            coupons = coupons.filter(coupon =>
+                regex.test(coupon.name) ||
+                regex.test(coupon.code) ||
+                regex.test(coupon.description)
+            )
+        }
+
+        if (filterBy.createdBy) {
+            coupons = coupons.filter(coupon => coupon.createdBy === filterBy.createdBy)
+        }
+
+        if (filterBy.discountType) {
+            coupons = coupons.filter(coupon => coupon.discountType === filterBy.discountType)
+        }
+
+        if (filterBy.discountValue !== null) {
+            coupons = coupons.filter(coupon => coupon.discountValue === filterBy.discountValue)
+        }
+
+        if (filterBy.isStackable) {
+            coupons = coupons.filter(coupon => coupon.isStackable === filterBy.isStackable)
+        }
+
+        if (filterBy.usageLimit) {
+            coupons = coupons.filter(coupon => coupon.usageLimit === filterBy.usageLimit)
+        }
+
+        if (filterBy.usageCount) {
+            coupons = coupons.filter(coupon => coupon.usageCount === filterBy.usageCount)
+        }
+
+        if (filterBy.expiryDate) {
+            const filterDate = new Date(filterBy.expiryDate);
+            coupons = coupons.filter(coupon => new Date(coupon.expiryDate) <= filterDate);
+        }
+
+        if (sortBy.by) {
+            coupons.sort((a, b) => {
+                if (a[sortBy.by] < b[sortBy.by]) return sortBy.asc ? -1 : 1
+                if (a[sortBy.by] > b[sortBy.by]) return sortBy.asc ? 1 : -1
+                return 0
+            })
         }
         console.log('coupons returned from service:', coupons)
 
@@ -64,5 +111,18 @@ function getEmptyCoupon() {
         isStackable: false,
         usageLimit: 1,
         usageCount: 0,
+    }
+}
+
+function getDefaultFilter() {
+    return {
+        createdBy: '',
+        txt: '',
+        discountType: '',
+        discountValue: null,
+        isStackable: '',
+        usageLimit: null,
+        usageCount: null,
+        expiryDate: ''
     }
 }

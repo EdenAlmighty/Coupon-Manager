@@ -3,6 +3,7 @@ import { CouponPreview } from './CouponPreview'
 import { couponService } from '../services/coupon.service'
 
 export function CouponList({ coupons, onRemove, onEdit }) {
+
     async function handleRemove(couponId) {
         try {
             await couponService.remove(couponId)
@@ -29,8 +30,8 @@ export function CouponList({ coupons, onRemove, onEdit }) {
             </thead>
             <tbody>
                 {coupons.length > 0 ? (
-                    coupons.map(coupon => (
-                        <tr key={coupon._id} className="coupon-preview">
+                    coupons.map((coupon, idx) => (
+                        <tr key={coupon._id + idx} className="coupon-preview">
                             <CouponPreview coupon={coupon} />
                             <td>
                                 <button className="delete-btn" onClick={() => handleRemove(coupon._id)}>X</button>

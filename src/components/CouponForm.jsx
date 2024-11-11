@@ -107,7 +107,7 @@ export function CouponForm({ coupon, onSave }) {
                     label="Is Stackable:"
                     type="checkbox"
                     name="isStackable"
-                    value={formCoupon.isStackable}
+                    checked={formCoupon.isStackable}
                     onChange={handleChange}
                 />
                 <CustomInput

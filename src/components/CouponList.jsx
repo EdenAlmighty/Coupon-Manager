@@ -1,16 +1,9 @@
 import React from 'react'
 import { CouponPreview } from './CouponPreview'
 import { couponService } from '../services/coupon.service'
+import { SortButton } from './SortButton'
 
 export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
-
-    function handleSort(ev) {
-        ev.preventDefault()
-        const { name } = ev.target
-        const newAscValue = sortBy.asc === 1 ? -1 : 1
-        const newSortBy = { by: name, asc: newAscValue }
-        onSort(newSortBy)
-    }
 
     async function handleRemove(couponId) {
         try {
@@ -25,22 +18,38 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
         <table className="coupon-list-container">
             <thead>
                 <tr>
-                    <th className="createdBy">Created By</th>
-                    <th className="code">Code</th>
-                    <th className="description">Description</th>
-                    <th className="discount">Discount</th>
-                    <th className="stackable">Stackable</th>
+                    <th className="createdBy">
+                        Created By
+                        <SortButton name="createdBy" sortBy={sortBy} onSort={onSort} />
+                    </th>
+                    <th className="code">
+                        Code
+                        <SortButton name="code" sortBy={sortBy} onSort={onSort} />
+                    </th>
+                    <th className="description">
+                        Description
+                        <SortButton name="description" sortBy={sortBy} onSort={onSort} />
+                    </th>
+                    <th className="discount">
+                        Discount
+                        <SortButton name="discount" sortBy={sortBy} onSort={onSort} />
+                    </th>
+                    <th className="stackable">
+                        Stackable
+                        <SortButton name="stackable" sortBy={sortBy} onSort={onSort} />
+                    </th>
                     <th className="limit">
                         Usage Limit
-                        <button
-                            name="usageLimit"
-                            onClick={handleSort}
-                        >
-                            Sort {sortBy.by === 'usageLimit' && (sortBy.asc === 1 ? '↑' : '↓')}
-                        </button>
+                        <SortButton name="usageLimit" sortBy={sortBy} onSort={onSort} />
                     </th>
-                    <th className="count">Usage Count</th>
-                    <th className="expire">Expires</th>
+                    <th className="count">
+                        Usage Count
+                        <SortButton name="usageCount" sortBy={sortBy} onSort={onSort} />
+                    </th>
+                    <th className="expire">
+                        Expires
+                        <SortButton name="expires" sortBy={sortBy} onSort={onSort} />
+                    </th>
                     <th className="actions">Actions</th>
                 </tr>
             </thead>

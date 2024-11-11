@@ -16,70 +16,20 @@ const STORAGE_KEY = 'coupon'
 
 async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy()) {
     let coupons = await storageService.query(STORAGE_KEY)
-    console.log('coupons from service:', coupons)
     try {
         if (!coupons || !coupons.length) {
-            const newCoupons = defaultCoupons.map(coupon => ({
-                ...coupon,
-                _id: utilService.makeId(),
-            }))
-            console.log(' new coupons from service:', newCoupons)
-
-            await storageService.post(STORAGE_KEY, newCoupons)
-            coupons = newCoupons
+            coupons = await _createCoupons()
         }
 
-        // Filter by all matching text types
-        if (filterBy.txt) {
-            const regex = new RegExp(filterBy.txt, 'i')
-            coupons = coupons.filter(coupon =>
-                regex.test(coupon.name) ||
-                regex.test(coupon.code) ||
-                regex.test(coupon.description)
-            )
-        }
+        // Apply filters
+        coupons = _applyFilters(coupons, filterBy)
 
-        if (filterBy.createdBy) {
-            coupons = coupons.filter(coupon => coupon.createdBy === filterBy.createdBy)
-        }
-
-        if (filterBy.discountType) {
-            coupons = coupons.filter(coupon => coupon.discountType === filterBy.discountType)
-        }
-
-        if (filterBy.discountValue !== null) {
-            coupons = coupons.filter(coupon => coupon.discountValue === filterBy.discountValue)
-        }
-
-        if (filterBy.isStackable) {
-            coupons = coupons.filter(coupon => coupon.isStackable === filterBy.isStackable)
-        }
-
-        if (filterBy.usageLimit) {
-            coupons = coupons.filter(coupon => coupon.usageLimit === filterBy.usageLimit)
-        }
-
-        if (filterBy.usageCount) {
-            coupons = coupons.filter(coupon => coupon.usageCount === filterBy.usageCount)
-        }
-
-        if (filterBy.expiryDate) {
-            const filterDate = new Date(filterBy.expiryDate)
-            coupons = coupons.filter(coupon => new Date(coupon.expiryDate) <= filterDate)
-        }
-
-        if (sortBy.by) {
-            coupons = [...coupons].sort((a, b) => {
-                if (a[sortBy.by] < b[sortBy.by]) return sortBy.asc === 1 ? -1 : 1
-                if (a[sortBy.by] > b[sortBy.by]) return sortBy.asc === 1 ? 1 : -1
-                return 0
-            })
-        }
-        console.log('coupons returned from service:', coupons)
-
+        // Apply sorting
+        coupons = _sortCoupons(coupons, sortBy)
+        console.log('coupons: ', coupons)
         return coupons
     } catch (err) {
-        console.log(err)
+        handleError(err)
         throw err
     }
 }
@@ -108,7 +58,7 @@ function getEmptyCoupon() {
         discountValue: "",
         expiryDate: "",
         createdBy: "admin",
-        createdAt: new Date().toISOString(),
+        createdAt: Date.now(),
         isStackable: false,
         usageLimit: 1,
         usageCount: 0,
@@ -133,4 +83,80 @@ function getDefaultSortBy() {
         by: '',
         asc: 1
     }
+}
+
+
+// Private functions
+async function _createCoupons() {
+    const newCoupons = defaultCoupons.map(coupon => ({
+        ...coupon,
+        _id: utilService.makeId(),
+        createdAt: Date.now()
+    }))
+    await storageService.post(STORAGE_KEY, newCoupons)
+    return newCoupons
+}
+
+function _applyFilters(coupons, filterBy) {
+    if (filterBy.txt) {
+        const regex = new RegExp(filterBy.txt, 'i')
+        coupons = coupons.filter(coupon =>
+            regex.test(coupon.name) ||
+            regex.test(coupon.code) ||
+            regex.test(coupon.description)
+        )
+    }
+    if (filterBy.createdBy) {
+        coupons = coupons.filter(coupon => coupon.createdBy === filterBy.createdBy)
+    }
+    if (filterBy.discountType) {
+        coupons = coupons.filter(coupon => coupon.discountType === filterBy.discountType)
+    }
+    if (filterBy.discountValue !== null) {
+        coupons = coupons.filter(coupon => coupon.discountValue === filterBy.discountValue)
+    }
+    if (filterBy.isStackable) {
+        coupons = coupons.filter(coupon => coupon.isStackable === filterBy.isStackable)
+    }
+    if (filterBy.usageLimit) {
+        coupons = coupons.filter(coupon => coupon.usageLimit === filterBy.usageLimit)
+    }
+    if (filterBy.usageCount) {
+        coupons = coupons.filter(coupon => coupon.usageCount === filterBy.usageCount)
+    }
+    if (filterBy.expiryDate) {
+        const filterDate = new Date(filterBy.expiryDate)
+        coupons = coupons.filter(coupon => new Date(coupon.expiryDate) <= filterDate)
+    }
+    return coupons
+}
+
+function _sortCoupons(coupons, sortBy) {
+    if (!sortBy.by) return coupons
+
+    return [...coupons].sort((a, b) => {
+        let comparison = 0
+
+        switch (sortBy.by) {
+            case 'discountValue':
+                const discountA = Number(a.discountValue)
+                const discountB = Number(b.discountValue)
+                comparison = discountA - discountB
+                break
+            case 'expiryDate':
+                const dateA = new Date(a.expiryDate)
+                const dateB = new Date(b.expiryDate)
+                comparison = dateA - dateB
+                break
+            case 'isStackable':
+                comparison = (a.isStackable === b.isStackable) ? 0 : (a.isStackable ? 1 : -1)
+                break
+            default:
+                if (a[sortBy.by] < b[sortBy.by]) comparison = -1
+                if (a[sortBy.by] > b[sortBy.by]) comparison = 1
+                break
+        }
+
+        return sortBy.asc === 1 ? comparison : -comparison
+    })
 }

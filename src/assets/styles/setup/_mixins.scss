@@ -62,6 +62,17 @@
         opacity: .5;
         pointer-events: none
     }
+
+    &.icon-btn {
+        position: absolute;
+        border: none;
+        right: 5px;
+        padding: 0;
+        height: em(24px);
+        font-size: 0;
+        // color: $color;
+        // cursor: pointer;
+    }
 }
 
 button {

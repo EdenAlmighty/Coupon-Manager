@@ -6,7 +6,6 @@
         "discountValue": 10,
         "expiryDate": "2024-12-31",
         "createdBy": "adminUser123",
-        "createdAt": "2024-11-08T00:00:00.000Z",
         "isStackable": true,
         "usageLimit": 100,
         "usageCount": 0
@@ -18,7 +17,6 @@
         "discountValue": 15,
         "expiryDate": "2024-12-31",
         "createdBy": "adminUser123",
-        "createdAt": "2024-11-08T00:00:00.000Z",
         "isStackable": false,
         "usageLimit": 50,
         "usageCount": 0
@@ -30,7 +28,6 @@
         "discountValue": 0,
         "expiryDate": "2024-11-30",
         "createdBy": "adminUser123",
-        "createdAt": "2024-11-08T00:00:00.000Z",
         "isStackable": true,
         "usageLimit": 200,
         "usageCount": 0
@@ -42,7 +39,6 @@
         "discountValue": 20,
         "expiryDate": "2024-12-31",
         "createdBy": "adminUser123",
-        "createdAt": "2024-11-08T00:00:00.000Z",
         "isStackable": false,
         "usageLimit": 50,
         "usageCount": 0

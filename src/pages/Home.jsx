@@ -5,16 +5,21 @@ import { couponService } from "../services/coupon.service"
 import { CouponList } from "../components/CouponList"
 import { CouponForm } from "../components/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
+import LoginModal from "../components/loginModal"
 
 export default function Home() {
 	const [coupons, setCoupons] = useState([])
 	const [couponToEdit, setCouponToEdit] = useState(null)
 	const [filterBy, setFilterBy] = useState(couponService.getDefaultFilter())
-    const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
+	const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
+	// Login modal state
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	useEffect(() => {
 		loadCoupons()
-	}, [filterBy,sortBy])
+	}, [filterBy, sortBy])
 
 	async function loadCoupons() {
 		try {
@@ -48,7 +53,11 @@ export default function Home() {
 
 	return (
 		<>
-			<AppHeader />
+			<AppHeader
+				onLogin={handleOpen} />
+			<LoginModal
+				open={open}
+				onClose={handleClose} />
 			<main>
 				<CouponForm
 					coupon={couponToEdit}

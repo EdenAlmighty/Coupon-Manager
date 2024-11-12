@@ -3,9 +3,14 @@ import { CustomInput } from './CustomInput';
 
 export function CouponFilter({ filterBy, onFilter }) {
     function handleChange(field, value) {
-        if ((field === 'createdBy' || field === 'discountType') && value === 'all') {
+        if (field === 'isStackable' && value !== '') {
+            value = value === 'true'
+        }
+    
+        if ((field === 'createdBy' || field === 'discountType' || field === 'isStackable') && value === 'all') {
             value = ''
         }
+    
         const newFilterBy = { ...filterBy, [field]: value }
         onFilter(newFilterBy)
     }
@@ -50,10 +55,15 @@ export function CouponFilter({ filterBy, onFilter }) {
 
             <CustomInput
                 label="Is Stackable:"
-                type="checkbox"
+                type="select"
                 name="isStackable"
-                checked={filterBy.isStackable}
-                onChange={(ev) => handleChange('isStackable', ev.target.checked)}
+                value={filterBy.isStackable}
+                onChange={(ev) => handleChange('isStackable', ev.target.value)}
+                options={[
+                    { value: '', label: 'All' },
+                    { value: true, label: 'Yes' },
+                    { value: false, label: 'No' }
+                ]}
             />
 
         </article>

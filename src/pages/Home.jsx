@@ -6,6 +6,7 @@ import { CouponList } from "../components/CouponList"
 import { CouponForm } from "../components/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
 import LoginModal from "../components/loginModal"
+import { userService } from "../services/user.service"
 
 export default function Home() {
 	const [coupons, setCoupons] = useState([])
@@ -13,9 +14,9 @@ export default function Home() {
 	const [filterBy, setFilterBy] = useState(couponService.getDefaultFilter())
 	const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
 	// Login modal state
-	const [open, setOpen] = useState(false);
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const [open, setOpen] = useState(false)
+	const handleOpen = () => setOpen(true)
+	const handleClose = () => setOpen(false)
 
 	useEffect(() => {
 		loadCoupons()
@@ -51,13 +52,32 @@ export default function Home() {
 		setSortBy(sortBy)
 	}
 
+	function handleLogin(userCred) {
+		userService.login(userCred)
+			.then(user => {
+				if (user) {
+					console.log("Login successful: ", user);
+					handleClose();
+					loadCoupons();
+				} else {
+					alert("Invalid credentials. Please try again.");
+				}
+			})
+			.catch(err => {
+				console.error("Login error: ", err);
+				alert("Login failed. Please try again.");
+			});
+	}
+	  
+
 	return (
 		<>
 			<AppHeader
 				onLogin={handleOpen} />
 			<LoginModal
 				open={open}
-				onClose={handleClose} />
+				onClose={handleClose}
+				onLogin={handleLogin} />
 			<main>
 				<CouponForm
 					coupon={couponToEdit}

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
@@ -18,7 +18,18 @@ const style = {
   borderRadius: '4px',
 };
 
-export default function LoginModal({ open, onClose }) {
+export default function LoginModal({ open, onClose, onLogin }) {
+  const [userCred, setUserCred] = useState({ username: '', password: '' })
+
+  function handleChange({ target: { name, value } }) {
+    setUserCred(prev => ({ ...prev, [name]: value }))
+  }
+
+  function handleSubmit(ev) {
+    ev.preventDefault()
+    onLogin(userCred)
+  }
+
   return (
     <Modal
       keepMounted
@@ -28,10 +39,11 @@ export default function LoginModal({ open, onClose }) {
       aria-describedby="login-modal-description"
     >
       <Box sx={style}>
-        <Typography id="login-modal-title" variant="h7" component="h1" sx={{ mb: 2 }}>
+        <Typography id="login-modal-title" variant="h4" component="h1" sx={{ mb: 2 }}>
           Login
         </Typography>
         <form
+          onSubmit={handleSubmit}
           className='login-form'
           style={{
             display: 'flex',
@@ -42,12 +54,18 @@ export default function LoginModal({ open, onClose }) {
             label="Username"
             type="text"
             name="username"
-            placeholder="Enter your username" />
+            value={userCred.username}
+            placeholder="Enter your username"
+            onChange={(ev) => handleChange(ev)}
+          />
           <CustomInput
             label="Password"
             type="password"
             name="password"
-            placeholder="Enter your password" />
+            value={userCred.password}
+            placeholder="Enter your password"
+            onChange={(ev) => handleChange(ev)}
+          />
           <div>
             <Button type="submit" variant="contained" sx={{ mt: 2 }}>
               Login

@@ -3,31 +3,33 @@ import { CustomInput } from './CustomInput';
 
 export function CouponFilter({ filterBy, onFilter }) {
     function handleChange(field, value) {
-        if (field === 'createdBy' && value === 'all') {
+        if ((field === 'createdBy' || field === 'discountType') && value === 'all') {
             value = ''
         }
-        const newFilterBy = { ...filterBy, [field]: value };
-        onFilter(newFilterBy);
+        const newFilterBy = { ...filterBy, [field]: value }
+        console.log('newFilterBy: ', field, value);
+        
+        onFilter(newFilterBy)
     }
 
     return (
         <article className='coupon-filter'>
-            <label htmlFor="createdBy">Created By</label>
             <CustomInput
+                label='Created By'
                 type="select"
                 name="createdBy"
                 value={filterBy.createdBy}
-                onChange={handleChange}
+                onChange={(ev) => handleChange('createdBy', ev.target.value)}
                 options={[
-                    { value: 'all', label: '---' },
+                    { value: 'all', label: 'All' },
                     { value: 'adminUser123', label: 'adminUser123' },
                     { value: 'test', label: 'test' },
                     { value: 'admof', label: 'admof' }
                 ]}
             />
             {/* Search all text options, createdBy, couponCode and description */}
-            <label htmlFor="txt">Search</label>
             <CustomInput
+                label="Search"
                 type="text"
                 id="txt"
                 name="txt"
@@ -35,14 +37,14 @@ export function CouponFilter({ filterBy, onFilter }) {
                 onChange={(ev) => handleChange('txt', ev.target.value)}
             />
 
-            <label htmlFor="discountType">Discount Type</label>
             <CustomInput
+                label='Discount Type'
                 type="select"
                 name="discountType"
                 value={filterBy.discountType}
-                onChange={handleChange}
+                onChange={(ev) => handleChange('discountType', ev.target.value)}
                 options={[
-                    { value: '', label: 'All' },
+                    { value: 'all', label: 'All' },
                     { value: 'percentage', label: '%' },
                     { value: 'flat', label: '₪' }
                 ]}

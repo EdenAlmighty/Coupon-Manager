@@ -10,7 +10,7 @@ export function CustomInput({ label, type = 'text', name, value, onChange, optio
                         name={name}
                         id={name}
                         value={value}
-                        onChange={(ev) => onChange(name, ev.target.value)}
+                        onChange={(ev) => onChange(ev)}
                         {...rest}>
                         {options.map(option => (
                             <option key={option.value} value={option.value}>

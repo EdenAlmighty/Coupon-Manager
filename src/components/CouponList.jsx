@@ -32,11 +32,11 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
                     </th>
                     <th className="discount">
                         Discount
-                        <SortButton name="discount" sortBy={sortBy} onSort={onSort} />
+                        <SortButton name="discountType" sortBy={sortBy} onSort={onSort} />
                     </th>
                     <th className="stackable">
                         Stackable
-                        <SortButton name="stackable" sortBy={sortBy} onSort={onSort} />
+                        <SortButton name="isStackable" sortBy={sortBy} onSort={onSort} />
                     </th>
                     <th className="limit">
                         Usage Limit
@@ -48,7 +48,7 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
                     </th>
                     <th className="expire">
                         Expires
-                        <SortButton name="expires" sortBy={sortBy} onSort={onSort} />
+                        <SortButton name="expiryDate" sortBy={sortBy} onSort={onSort} />
                     </th>
                     <th className="actions">Actions</th>
                 </tr>

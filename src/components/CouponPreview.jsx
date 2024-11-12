@@ -1,10 +1,11 @@
 import React from 'react'
 import { Tooltip } from '@mui/material';
+import { utilService } from '../services/util.service';
 
 export function CouponPreview({ coupon }) {
     const descLimit = 50
-
     const isDescTooLong = coupon.description.length > descLimit
+    const formattedDate = utilService.formatDate(coupon.expiryDate)
 
     return (
         <>
@@ -28,7 +29,7 @@ export function CouponPreview({ coupon }) {
             <td>{coupon.isStackable ? "Yes" : "No"}</td>
             <td>{coupon.usageLimit}</td>
             <td>{coupon.usageCount}</td>
-            <td>{coupon.expiryDate}</td>
+            <td>{coupon.expiryDate ? formattedDate : "No Expiry"}</td>
         </>
-    );
+    )
 }

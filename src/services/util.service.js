@@ -1,7 +1,8 @@
 export const utilService = {
     saveToStorage,
     loadFromStorage,
-    makeId
+    makeId,
+    formatDate
 }
 
 function saveToStorage(key, value) {
@@ -23,4 +24,15 @@ function makeId(length = 6) {
     }
 
     return txt
+}
+
+function formatDate(date) {
+    const d = new Date(date)
+
+    const month = d.getMonth() + 1
+    const day = d.getDate()
+    const year = d.getFullYear()
+
+    // Expected "M/d/yyyy
+    return `${month}/${day}/${year}`
 }

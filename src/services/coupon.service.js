@@ -125,8 +125,8 @@ function _applyFilters(coupons, filterBy) {
         coupons = coupons.filter(coupon => coupon.usageCount === filterBy.usageCount)
     }
     if (filterBy.expiryDate) {
-        const filterDate = new Date(filterBy.expiryDate)
-        coupons = coupons.filter(coupon => new Date(coupon.expiryDate) <= filterDate)
+        const filterDate = Date.now()(filterBy.expiryDate)
+        coupons = coupons.filter(coupon => Date.now()(coupon.expiryDate) <= filterDate)
     }
     return coupons
 }
@@ -144,8 +144,8 @@ function _sortCoupons(coupons, sortBy) {
                 comparison = discountA - discountB
                 break
             case 'expiryDate':
-                const dateA = new Date(a.expiryDate)
-                const dateB = new Date(b.expiryDate)
+                const dateA = a.expiryDate
+                const dateB = b.expiryDate
                 comparison = dateA - dateB
                 break
             case 'isStackable':
@@ -156,7 +156,8 @@ function _sortCoupons(coupons, sortBy) {
                 if (a[sortBy.by] > b[sortBy.by]) comparison = 1
                 break
         }
-
+        console.log('comparison: ', b.expiryDate)
+        console.log('sortBy: ', sortBy)
         return sortBy.asc === 1 ? comparison : -comparison
     })
 }

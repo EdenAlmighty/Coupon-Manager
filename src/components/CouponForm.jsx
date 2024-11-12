@@ -20,10 +20,29 @@ export function CouponForm({ coupon, onSave }) {
     }, [coupon])
 
     function handleChange({ target }) {
-        const { name, value } = target
+        const { name, value, checked } = target
+
+        if (name === 'isStackable') {
+            setFormCoupon({
+                ...formCoupon,
+                [name]: checked,
+            })
+            return
+        }
+
+        if (name === 'expiryDate') {
+            const timestamp = new Date(value).getTime()
+            console.log('timestamp: ', timestamp)
+
+            setFormCoupon({
+                ...formCoupon,
+                [name]: timestamp,
+            })
+            return
+        }
 
         if (name === 'discountType' && value === 'flat') {
-            setError('');
+            setError('')
         }
 
         if (name === 'discountValue' && formCoupon.discountType === 'percentage') {
@@ -121,7 +140,7 @@ export function CouponForm({ coupon, onSave }) {
                     label="Expiry Date:"
                     type="date"
                     name="expiryDate"
-                    value={formCoupon.expiryDate}
+                    value={formCoupon.expiryDate ? new Date(formCoupon.expiryDate).toISOString().split('T')[0] : ''}
                     onChange={handleChange}
                 />
             </form>

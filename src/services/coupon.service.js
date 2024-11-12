@@ -20,7 +20,7 @@ async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy())
         if (!coupons || !coupons.length) {
             coupons = await _createCoupons()
         }
-
+        
         // Apply filters
         coupons = _applyFilters(coupons, filterBy)
 
@@ -112,16 +112,16 @@ function _applyFilters(coupons, filterBy) {
     if (filterBy.discountType) {
         coupons = coupons.filter(coupon => coupon.discountType === filterBy.discountType)
     }
-    if (filterBy.discountValue !== null) {
+    if (filterBy.discountValue !== null && filterBy.discountValue !== '') {
         coupons = coupons.filter(coupon => coupon.discountValue === filterBy.discountValue)
     }
-    if (filterBy.isStackable) {
+    if (filterBy.isStackable !== '') {
         coupons = coupons.filter(coupon => coupon.isStackable === filterBy.isStackable)
     }
-    if (filterBy.usageLimit) {
+    if (filterBy.usageLimit != null) {
         coupons = coupons.filter(coupon => coupon.usageLimit === filterBy.usageLimit)
     }
-    if (filterBy.usageCount) {
+    if (filterBy.usageCount != null) {
         coupons = coupons.filter(coupon => coupon.usageCount === filterBy.usageCount)
     }
     if (filterBy.expiryDate) {

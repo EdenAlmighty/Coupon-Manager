@@ -70,7 +70,7 @@ function getDefaultFilter() {
         createdBy: '',
         txt: '',
         discountType: '',
-        discountValue: null,
+        discountValue: '',
         isStackable: '',
         usageLimit: null,
         usageCount: null,
@@ -156,8 +156,6 @@ function _sortCoupons(coupons, sortBy) {
                 if (a[sortBy.by] > b[sortBy.by]) comparison = 1
                 break
         }
-        console.log('comparison: ', b.expiryDate)
-        console.log('sortBy: ', sortBy)
         return sortBy.asc === 1 ? comparison : -comparison
     })
 }

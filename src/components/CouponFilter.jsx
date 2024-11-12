@@ -7,8 +7,6 @@ export function CouponFilter({ filterBy, onFilter }) {
             value = ''
         }
         const newFilterBy = { ...filterBy, [field]: value }
-        console.log('newFilterBy: ', field, value);
-        
         onFilter(newFilterBy)
     }
 

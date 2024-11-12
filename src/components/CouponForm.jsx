@@ -118,6 +118,7 @@ export function CouponForm({ coupon, onSave }) {
                     value={formCoupon.discountType}
                     onChange={handleChange}
                     options={[
+                        { value: '', label: '---' },
                         { value: 'percentage', label: '%' },
                         { value: 'flat', label: '₪' }
                     ]}

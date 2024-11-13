@@ -1,6 +1,8 @@
-import React from "react"
+import React from "react";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
-export default function AppHeader({ onLogin }) {
+export default function AppHeader({ onLogin, onLogout, loggedInUser }) {
     return (
         <header>
             <div className="logo-container">
@@ -8,8 +10,12 @@ export default function AppHeader({ onLogin }) {
                 <h1>Coupon Manager</h1>
             </div>
             <div className="header-actions">
-                <button onClick={onLogin}>Login</button>
+                {loggedInUser ? (
+                    <LogoutButton onLogout={onLogout} name={loggedInUser.fullname} />
+                ) : (
+                    <LoginButton onLogin={onLogin} />
+                )}
             </div>
         </header>
-    )
+    );
 }

@@ -1,0 +1,27 @@
+.user-list-container {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0 em(10px);
+    table-layout: fixed;
+
+    tr {
+        background-color: lighten($bgc-main, $amount: 5);
+        border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+        position: relative;
+        padding: em(10px);
+        border-left: 1px solid lighten($bgc-main, $amount: 20);
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:first-of-type {
+            border-left: none;
+        }
+    }
+}

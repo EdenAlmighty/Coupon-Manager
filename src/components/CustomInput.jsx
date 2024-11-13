@@ -25,7 +25,7 @@ export function CustomInput({ label, type = 'text', name, value, onChange, optio
                         value={value}
                         onChange={onChange}
                         {...rest}
-                        required={type !== 'select'}
+                        required={type !== 'select' && type !== 'checkbox'}
                     />
                 )}
             </label>

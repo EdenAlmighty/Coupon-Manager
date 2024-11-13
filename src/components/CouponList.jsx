@@ -1,6 +1,5 @@
 import React from 'react'
 import { CouponPreview } from './CouponPreview'
-import { couponService } from '../services/coupon.service'
 import { SortButton } from './SortButton'
 
 export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {

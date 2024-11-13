@@ -2,9 +2,10 @@ import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './assets/styles/main.scss'
 import { UserProvider } from './context/UserContext.jsx'
+import { ContextProviders } from './context/ContextProviders.jsx'
 
 createRoot(document.getElementById('root')).render(
-    <UserProvider>
+    <ContextProviders>
         <App />
-    </UserProvider>
+    </ContextProviders>
 )

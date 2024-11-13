@@ -7,6 +7,7 @@ import { CouponForm } from "../components/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
 import LoginModal from "../components/loginModal"
 import { useUser } from "../hooks/useUser"
+import { useLoading } from "../hooks/useLoading"
 
 export default function Home() {
 	const [coupons, setCoupons] = useState([])
@@ -18,24 +19,28 @@ export default function Home() {
 	const handleOpen = () => setOpen(true)
 	const handleClose = () => setOpen(false)
 	const { loggedInUser, login, logout } = useUser()
+	const { isLoading, setIsLoading } = useLoading()
 
 	useEffect(() => {
 		loadCoupons()
 	}, [filterBy, sortBy])
 
 	async function loadCoupons() {
+		setIsLoading(true)
 		try {
 			const coupons = await couponService.query(filterBy, sortBy)
 			setCoupons(coupons)
 		} catch (err) {
 			console.error("Failed to fetch coupons:", err)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
 	async function handleRemove(couponId) {
 		// Optimistic update
 		setCoupons(prevCoupons => prevCoupons.filter(coupon => coupon._id !== couponId))
-		
+
 		try {
 			const updatedCoupons = await couponService.remove(couponId)
 			setCoupons(updatedCoupons)
@@ -99,19 +104,22 @@ export default function Home() {
 				onClose={handleClose}
 				onLogin={handleLogin} />
 			<main>
-				<CouponForm
-					coupon={couponToEdit}
-					onSave={handleSave} />
-				<CouponFilter
-					filterBy={filterBy}
-					onFilter={handleFilter} />
-				<CouponList
-					coupons={coupons}
-					onRemove={handleRemove}
-					onEdit={handleEdit}
-					filterBy={filterBy}
-					onSort={handleSort}
-					sortBy={sortBy} />
+				<CouponForm coupon={couponToEdit} onSave={handleSave} />
+				<CouponFilter filterBy={filterBy} onFilter={handleFilter} />
+				{isLoading ? (
+					<div>Loading...</div>
+				) : (
+					<>
+						<CouponList
+							coupons={coupons}
+							onRemove={handleRemove}
+							onEdit={handleEdit}
+							filterBy={filterBy}
+							onSort={handleSort}
+							sortBy={sortBy}
+						/>
+					</>
+				)}
 			</main>
 			<AppFooter />
 		</>

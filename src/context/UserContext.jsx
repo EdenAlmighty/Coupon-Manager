@@ -6,8 +6,19 @@ export const UserContext = createContext()
 export function UserProvider({ children }) {
     const [loggedInUser, setLoggedInUser] = useState(userService.getLoggedinUser())
 
+    async function logout() {
+        try {
+            await userService.logout()
+            setLoggedInUser(null)
+        } catch (err) {
+            console.error("Logout error:", err)
+            throw err
+        }
+    }
+
     async function login(userCred) {
         try {
+            console.log(userCred)
             const user = await userService.login(userCred)
             if (user) {
                 setLoggedInUser(user)
@@ -15,16 +26,6 @@ export function UserProvider({ children }) {
             }
         } catch (err) {
             console.error("Login error:", err)
-            throw err
-        }
-    }
-
-    async function logout() {
-        try {
-            await userService.logout()
-            setLoggedInUser(null)
-        } catch (err) {
-            console.error("Logout error:", err)
             throw err
         }
     }

@@ -1,7 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
+import React from "react"
+import { Link } from "react-router-dom"
 
 export default function AppHeader({ onLogin, onLogout, loggedInUser }) {
     return (
@@ -10,18 +8,21 @@ export default function AppHeader({ onLogin, onLogout, loggedInUser }) {
                 <img src="/logo.png" alt="logo" className="logo" />
                 <h1>Coupon Manager</h1>
             </div>
+            <nav>
+                {loggedInUser && (
+                    <>
+                        <Link to="/coupons">Coupons</Link>
+                        {loggedInUser.isAdmin && <Link to="/users">Users</Link>}
+                    </>
+                )}
+            </nav>
             <div className="header-actions">
                 {loggedInUser ? (
-                    <>
-                        {loggedInUser.isAdmin && (
-                            <Link to="/admin" className="admin-link">Admin Dashboard</Link>
-                        )}
-                        <LogoutButton onLogout={onLogout} name={loggedInUser.fullname} />
-                    </>
+                    <button onClick={onLogout}>Logout</button>
                 ) : (
-                    <LoginButton onLogin={onLogin} />
+                    <button onClick={onLogin}>Login</button>
                 )}
             </div>
         </header>
-    );
+    )
 }

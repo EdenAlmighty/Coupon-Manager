@@ -10,6 +10,7 @@ import { CouponFilter } from "../components/CouponFilter"
 import { useUser } from "../hooks/useUser"
 import { useLoading } from "../hooks/useLoading"
 import { Box } from "@mui/material"
+import { Loader } from "../components/Loader";
 
 export default function Home() {
 	const [coupons, setCoupons] = useState([])
@@ -108,10 +109,7 @@ export default function Home() {
 			<main>
 				<CouponForm coupon={couponToEdit} onSave={handleSave} />
 				<CouponFilter filterBy={filterBy} onFilter={handleFilter} />
-				{isLoading ? (
-					<Box display="flex" justifyContent="center" alignItems="center">
-						<CircularProgress />
-					</Box>) : (
+				{isLoading ? (<Loader />) : (
 					<>
 						<CouponList
 							coupons={coupons}

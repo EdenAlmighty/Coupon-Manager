@@ -5,15 +5,6 @@ import { SortButton } from './SortButton'
 
 export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
 
-    async function handleRemove(couponId) {
-        try {
-            await couponService.remove(couponId)
-            onRemove(couponId)
-        } catch (err) {
-            console.error("Failed to remove coupon:", err)
-        }
-    }
-
     return (
         <table className="coupon-list-container">
             <thead>
@@ -59,7 +50,7 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
                         <tr key={coupon._id + idx} className="coupon-preview">
                             <CouponPreview coupon={coupon} />
                             <td>
-                                <button className="delete-btn" onClick={() => handleRemove(coupon._id)}>X</button>
+                                <button className="delete-btn" onClick={() => onRemove(coupon._id)}>X</button>
                                 <button className="edit-btn" onClick={() => onEdit(coupon)}>Edit</button>
                             </td>
                         </tr>

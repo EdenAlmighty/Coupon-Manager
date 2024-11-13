@@ -6,7 +6,7 @@ export const storageService = {
     remove,
 }
 
-async function query(entityType, delay = 500) {
+async function query(entityType, delay = 300) {
     const entities = JSON.parse(localStorage.getItem(entityType)) || []
     return new Promise(resolve => setTimeout(() => resolve(entities), delay))
 }
@@ -47,6 +47,7 @@ async function remove(entityType, entityId) {
     if (idx < 0) throw new Error(`Remove failed, cannot find entity with id: ${entityId} in: ${entityType}`)
     entities.splice(idx, 1)
     _save(entityType, entities)
+    return entities
 }
 
 function _save(entityType, entities) {

@@ -32,9 +32,18 @@ export default function Home() {
 		}
 	}
 
-	function handleRemove(couponId) {
-		setCoupons((prevCoupons) => prevCoupons.filter((coupon) => coupon._id !== couponId))
+	async function handleRemove(couponId) {
+		// Optimistic update
+		setCoupons(prevCoupons => prevCoupons.filter(coupon => coupon._id !== couponId))
+		
+		try {
+			const updatedCoupons = await couponService.remove(couponId)
+			setCoupons(updatedCoupons)
+		} catch (err) {
+			console.error("Failed to remove coupon:", err)
+		}
 	}
+
 
 	function handleEdit(coupon) {
 		setCouponToEdit(coupon)
@@ -55,29 +64,29 @@ export default function Home() {
 
 	async function handleLogin(userCred) {
 		try {
-		  const user = await login(userCred)
-		  if (user) {
-			console.log("Login successful: ", user)
-			handleClose()
-			loadCoupons()
-		  } else {
-			alert("Invalid credentials. Please try again.")
-		  }
+			const user = await login(userCred)
+			if (user) {
+				console.log("Login successful: ", user)
+				handleClose()
+				loadCoupons()
+			} else {
+				alert("Invalid credentials. Please try again.")
+			}
 		} catch (err) {
-		  console.error("Login error: ", err)
-		  alert("Login failed. Please try again.")
+			console.error("Login error: ", err)
+			alert("Login failed. Please try again.")
 		}
-	  }
-	
-	  async function handleLogout() {
+	}
+
+	async function handleLogout() {
 		try {
-		  await logout()
+			await logout()
 		} catch (err) {
-		  console.error("Logout error: ", err)
-		  alert("Logout failed. Please try again.")
+			console.error("Logout error: ", err)
+			alert("Logout failed. Please try again.")
 		}
-	  }
-	  
+	}
+
 
 	return (
 		<>

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { couponService } from '../services/coupon.service'
 import { CustomInput } from './CustomInput'
+import { useLoading } from '../hooks/useLoading'
+import { CircularProgress } from '@mui/material'
 
 export function CouponForm({ coupon, onSave }) {
     const [formCoupon, setFormCoupon] = useState(couponService.getEmptyCoupon())
     const [error, setError] = useState('')
+    const { isLoading, setIsLoading } = useLoading()
 
     useEffect(() => {
         if (coupon) {
@@ -41,7 +44,11 @@ export function CouponForm({ coupon, onSave }) {
             return
         }
 
-        if (name === 'discountType' && value === 'flat') {
+        if (name === 'discountType') {
+            setFormCoupon({
+                ...formCoupon,
+                [name]: value,
+            })
             setError('')
         }
 
@@ -82,8 +89,8 @@ export function CouponForm({ coupon, onSave }) {
         <div className="coupon-form-container">
             {/* Buttons outside the form */}
             <div className="form-actions">
-                <button type="submit" onClick={handleSubmit}>Save Coupon</button>
                 <button type="button" onClick={handleReset}>Undo</button>
+                <button type="submit" onClick={handleSubmit}>{ isLoading ? <CircularProgress size={20} /> : 'Save Coupon'}</button>
             </div>
 
             {/* The Form itself */}

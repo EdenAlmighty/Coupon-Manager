@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react"
 import AppHeader from "../components/AppHeader"
 import AppFooter from "../components/AppFooter"
+import LoginModal from "../components/loginModal"
+import CircularProgress from '@mui/material/CircularProgress';
 import { couponService } from "../services/coupon.service"
 import { CouponList } from "../components/CouponList"
 import { CouponForm } from "../components/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
-import LoginModal from "../components/loginModal"
 import { useUser } from "../hooks/useUser"
 import { useLoading } from "../hooks/useLoading"
+import { Box } from "@mui/material"
 
 export default function Home() {
 	const [coupons, setCoupons] = useState([])
@@ -107,8 +109,9 @@ export default function Home() {
 				<CouponForm coupon={couponToEdit} onSave={handleSave} />
 				<CouponFilter filterBy={filterBy} onFilter={handleFilter} />
 				{isLoading ? (
-					<div>Loading...</div>
-				) : (
+					<Box display="flex" justifyContent="center" alignItems="center">
+						<CircularProgress />
+					</Box>) : (
 					<>
 						<CouponList
 							coupons={coupons}

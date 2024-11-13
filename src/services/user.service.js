@@ -2,9 +2,10 @@ import { storageService } from "./async-storage.service"
 
 export const userService = {
     getById,
-    signup,
+    // signup,
     login,
     logout,
+    getLoggedinUser
 }
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
@@ -51,6 +52,24 @@ async function login(userCred) {
         throw err
     }
 }
+
+async function logout() {
+    try {
+        localStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
+    } catch (err) {
+        console.error("Failed to logout:", err)
+        throw err
+    }
+}
+
+function getLoggedinUser() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    } catch (error) {
+      console.error('Failed to get logged in user:', error)
+      return null
+    }
+  }
 
 function _saveLocalUser(user) {
     user = {

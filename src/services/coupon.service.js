@@ -1,6 +1,5 @@
 import { storageService } from "./async-storage.service"
 import { utilService } from "./util.service"
-import defaultCoupons from "../../data/coupons.json"
 
 export const couponService = {
     query,
@@ -18,9 +17,9 @@ async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy())
     let coupons = await storageService.query(STORAGE_KEY)
     try {
         if (!coupons || !coupons.length) {
-            coupons = await _createCoupons()
+            coupons = await _loadCoupons()
+            await storageService.post(STORAGE_KEY, coupons)
         }
-        
         // Apply filters
         coupons = _applyFilters(coupons, filterBy)
 
@@ -85,16 +84,23 @@ function getDefaultSortBy() {
     }
 }
 
-
 // Private functions
-async function _createCoupons() {
-    const newCoupons = defaultCoupons.map(coupon => ({
-        ...coupon,
-        _id: utilService.makeId(),
-        createdAt: Date.now()
-    }))
-    await storageService.post(STORAGE_KEY, newCoupons)
-    return newCoupons
+export async function _loadCoupons() {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_DATA_PATH}/coupons.json`);
+        if (!response.ok) {
+            throw new Error('Failed to load coupons data')
+        }
+        const data = await response.json()
+        return data.map(coupon => ({
+            ...coupon,
+            _id: utilService.makeId(),
+            createdAt: Date.now(),
+        }))
+    } catch (error) {
+        console.error('Error loading coupons:', error)
+        throw error
+    }
 }
 
 function _applyFilters(coupons, filterBy) {

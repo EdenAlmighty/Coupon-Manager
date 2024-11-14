@@ -16,6 +16,7 @@ export const userService = {
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 const STORAGE_KEY_USERS = 'users'
 const SECRET_KEY = import.meta.env.VITE_SECRET_KEY || 'secret'
+const dataPath = import.meta.env.VITE_DATA_PATH || '/Coupon-Manager/data'
 
 let usersCache = null
 
@@ -36,7 +37,7 @@ export async function getUsers() {
         }
 
         // If not in localStorage, load users from the JSON file
-        const response = await fetch(`${import.meta.env.VITE_DATA_PATH}/users.json`)
+        const response = await fetch(`${dataPath}/users.json`);
         if (!response.ok) {
             throw new Error('Failed to load users data')
         }

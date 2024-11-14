@@ -27,7 +27,7 @@ async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy())
         console.log('coupons: ', coupons)
         return coupons
     } catch (err) {
-        handleError(err)
+        console.error("Failed to fetch coupons:", err);
         throw err
     }
 }

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { userService } from "../services/user.service"
-import { CustomInput } from "../components/CustomInput"
 import { UserList } from "../components/UserList"
+import UserForm from "../components/forms/UserForm"
+import CustomModal from "../components/modals/CustomModal"
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
-    const [newUser, setNewUser] = useState(userService.getDefaultUser())
+    const [userToEdit, setUserToEdit] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
         loadUsers()
@@ -20,61 +22,44 @@ export default function UsersPage() {
         }
     }
 
-    function handleChange({ target }) {
-        const { name, value, checked, type } = target
-        setNewUser(prevUser => ({
-            ...prevUser,
-            [name]: type === 'checkbox' ? checked : value
-        }))
+    function handleCreate() {
+        setUserToEdit(userService.getDefaultUser())
+        setIsModalOpen(true)
     }
 
-    async function handleCreateUser(event) {
-        event.preventDefault()
+    async function handleSave(user) {
         try {
-            await userService.signup(newUser)
+            if (user._id) await userService.update(user)
+            else await userService.signup(user)
+
             loadUsers()
-            setNewUser(userService.getDefaultUser())
+            setIsModalOpen(false)
+            setUserToEdit(null)
         } catch (err) {
-            console.error("Failed to create user:", err)
+            console.error("Failed to save user:", err)
+        }
+    }
+
+    async function handleRemove(userId) {
+        try {
+            await userService.remove(userId)
+            setUsers(prevUsers => prevUsers.filter(user => user._id !== userId))
+        } catch (err) {
+            console.error("Failed to delete user:", err)
         }
     }
 
     return (
-        <div className="users-page">
-            <h2>All Users</h2>
-            <section className="create-user">
-                <h2>Create New User</h2>
-                <form onSubmit={handleCreateUser} className="create-user-form">
-                    <CustomInput
-                        label="Username"
-                        type="text"
-                        name="username"
-                        placeholder="johndoe"
-                        value={newUser.username}
-                        onChange={handleChange} />
-                    <CustomInput
-                        label="Full Name"
-                        type="text"
-                        name="fullname"
-                        placeholder="John Doe"
-                        value={newUser.fullname}
-                        onChange={handleChange} />
-                    <CustomInput
-                        label="Password"
-                        type="password"
-                        name="password"
-                        placeholder="********"
-                        value={newUser.password}
-                        onChange={handleChange} />
-                    <CustomInput
-                        label="Admin User?"
-                        type="checkbox"
-                        name="isAdmin"
-                        checked={newUser.isAdmin}
-                        onChange={handleChange} />
-                    <button className="primary" type="submit">Create User</button>
-                </form>
-                <UserList users={users} />
+        <div className="admin-dashboard">
+            <h2>Admin Dashboard</h2>
+            <section className="user-management">
+                <button onClick={handleCreate} className="primary">Create New User</button>
+
+                <CustomModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                    <UserForm userToEdit={userToEdit} onSave={handleSave} />
+                </CustomModal>
+
+                <UserList users={users} onRemove={handleRemove} />
             </section>
         </div>
     )

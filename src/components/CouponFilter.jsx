@@ -1,16 +1,16 @@
 import React from 'react';
-import { CustomInput } from './CustomInput';
+import CustomInput from './CustomInput';
 
 export function CouponFilter({ filterBy, onFilter }) {
     function handleChange(field, value) {
         if (field === 'isStackable' && value !== '') {
             value = value === 'true'
         }
-    
+
         if ((field === 'createdBy' || field === 'discountType' || field === 'isStackable') && value === 'all') {
             value = ''
         }
-    
+
         const newFilterBy = { ...filterBy, [field]: value }
         onFilter(newFilterBy)
     }

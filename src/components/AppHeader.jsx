@@ -8,20 +8,16 @@ export default function AppHeader({ onLogin, onLogout, loggedInUser }) {
                 <img src="/logo.png" alt="logo" className="logo" />
                 <h1>Coupon Manager</h1>
             </div>
-            <nav>
-                {loggedInUser && (
-                    <>
-                        <Link to="/coupons">Coupons</Link>
-                        {loggedInUser.isAdmin && <Link to="/users">Users</Link>}
-                    </>
-                )}
-            </nav>
             <div className="header-actions">
-                {loggedInUser ? (
-                    <button className="primary" onClick={onLogout}>Logout</button>
-                ) : (
-                    <button className="primary" onClick={onLogin}>Login</button>
-                )}
+                {loggedInUser &&
+                    <nav>
+                        <>
+                            <Link to="/coupons">Coupons</Link>
+                            {loggedInUser.isAdmin && <Link to="/users">Users</Link>}
+                        </>
+                        <button className="primary" onClick={onLogout}>Logout</button>
+                    </nav>
+                }
             </div>
         </header>
     )

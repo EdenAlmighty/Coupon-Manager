@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { couponService } from "../services/coupon.service"
 import { CouponList } from "../components/CouponList"
-import { CouponForm } from "../components/CouponForm"
+import { CouponForm } from "../components/forms/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
 import { useLoading } from "../hooks/useLoading"
-import CustomModal from "../components/CustomModal"
+import CustomModal from "../components/modals/CustomModal"
 
 export default function CouponDashboard() {
     const [coupons, setCoupons] = useState([])
@@ -15,7 +15,6 @@ export default function CouponDashboard() {
     const { isLoading, setIsLoading } = useLoading()
 
     useEffect(() => {
-        if (coupons.length) return
         loadCoupons()
     }, [filterBy, sortBy])
 
@@ -76,18 +75,14 @@ export default function CouponDashboard() {
             </CustomModal>
 
             <CouponFilter filterBy={filterBy} onFilter={handleFilter} />
-            {isLoading ? (
-                <div>Loading...</div>
-            ) : (
-                <CouponList
-                    coupons={coupons}
-                    onRemove={handleRemove}
-                    onEdit={handleEdit}
-                    filterBy={filterBy}
-                    onSort={handleSort}
-                    sortBy={sortBy}
-                />
-            )}
+            <CouponList
+                coupons={coupons}
+                onRemove={handleRemove}
+                onEdit={handleEdit}
+                filterBy={filterBy}
+                onSort={handleSort}
+                sortBy={sortBy}
+            />
         </>
     )
 }

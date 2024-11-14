@@ -1,7 +1,7 @@
 import React from 'react'
 import { UserPreview } from './UserPreview'
 
-export function UserList({ users }) {
+export function UserList({ users, onRemove }) {
     return (
         <table className="user-list-container">
             <thead>
@@ -18,8 +18,7 @@ export function UserList({ users }) {
                         <tr key={user._id + idx} className="user-preview">
                             <UserPreview user={user} />
                             <td>
-                                <button className="delete-btn">Delete</button>
-                                <button className="edit-btn">Edit</button>
+                                <button className="delete-btn" onClick={() => onRemove(user._id)}>Delete</button>
                             </td>
                         </tr>
                     ))

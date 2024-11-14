@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { couponService } from '../services/coupon.service'
-import { CustomInput } from './CustomInput'
-import { useLoading } from '../hooks/useLoading'
-import { Loader } from './Loader'
+import React, { useState, useEffect, useRef } from 'react'
+import { couponService } from '../../services/coupon.service'
+import CustomInput from '../CustomInput'
+import { useLoading } from '../../hooks/useLoading'
+import { Loader } from '../Loader'
 
 export function CouponForm({ coupon, onSave }) {
     const [formCoupon, setFormCoupon] = useState(couponService.getEmptyCoupon())
     const [errors, setErrors] = useState({})
     const { isLoading, setIsLoading } = useLoading()
+    const inputRef = useRef(null)
 
     useEffect(() => {
+        inputRef.current?.focus()
+
         if (coupon) {
             setFormCoupon(coupon)
         } else {
@@ -74,7 +77,7 @@ export function CouponForm({ coupon, onSave }) {
     }
 
     return (
-        <div className="coupon-form-container">
+        <div className="form-container">
             <h2>{coupon && coupon._id ? 'Edit Coupon' : 'Create Coupon'}</h2>
             <form onSubmit={handleSubmit} className="coupon-form">
                 <CustomInput
@@ -83,6 +86,7 @@ export function CouponForm({ coupon, onSave }) {
                     value={formCoupon.code}
                     onChange={handleChange}
                     error={errors.code}
+                    ref={inputRef}
                     required
                 />
                 <CustomInput
@@ -144,7 +148,7 @@ export function CouponForm({ coupon, onSave }) {
                     />
                 </div>
                 <div className="form-actions">
-                    <button className="primary" type="button" onClick={handleReset}>Undo</button>
+                    <button className="primary" type="button" onClick={handleReset}>Clear</button>
                     <button className="primary" type="submit">{isLoading ? <Loader /> : 'Save Coupon'}</button>
                 </div>
             </form>

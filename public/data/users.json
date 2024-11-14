@@ -1,0 +1,23 @@
+[
+  {
+    "username": "admin",
+    "fullname": "Admin User",
+    "imgUrl": "https://res.cloudinary.com/dkvliixzt/image/upload/v1704358773/person-empty_zckbtr_wrffbw.svg",
+    "isAdmin": true,
+    "password": "123"
+  },
+  {
+    "username": "john",
+    "fullname": "John Doe",
+    "imgUrl": "https://res.cloudinary.com/dkvliixzt/image/upload/v1704358773/person-empty_zckbtr_wrffbw.svg",
+    "isAdmin": false,
+    "password": "123"
+  },
+  {
+    "username": "jane",
+    "fullname": "Jane Doe",
+    "imgUrl": "https://res.cloudinary.com/dkvliixzt/image/upload/v1704358773/person-empty_zckbtr_wrffbw.svg",
+    "isAdmin": false,
+    "password": "123"
+  }
+]

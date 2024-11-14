@@ -11,8 +11,8 @@
         font-size: 0.95em;
 
     }
-    
-    .isStackable{
+
+    .isStackable {
         align-items: center;
     }
 
@@ -28,6 +28,19 @@
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         font-size: 1em;
         font-family: p-regular;
+
+        &.error {
+            border: 1px solid red;
+
+            &:hover {
+                border-color: red;
+            }
+
+            &:focus {
+                border-color: red;
+                box-shadow: none;
+            }
+        }
 
         &:hover {
             border-color: $bgc-box;
@@ -52,6 +65,7 @@
     position: absolute;
     bottom: -1.2em;
     left: 0;
+    transform: translate(0, 100%);
     color: red;
     font-size: 0.8em;
     margin-top: 0.3em;

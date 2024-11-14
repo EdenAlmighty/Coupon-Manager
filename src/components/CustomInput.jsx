@@ -7,6 +7,7 @@ export function CustomInput({ label, type = 'text', name, value, onChange, optio
                 {label}
                 {type === 'select' ? (
                     <select
+                        className={error ? 'error' : ''}
                         name={name}
                         id={name}
                         value={value}
@@ -20,6 +21,7 @@ export function CustomInput({ label, type = 'text', name, value, onChange, optio
                     </select>
                 ) : (
                     <input
+                        className={error ? 'error' : ''}
                         type={type}
                         name={name}
                         value={value}
@@ -28,8 +30,8 @@ export function CustomInput({ label, type = 'text', name, value, onChange, optio
                         required={type !== 'select' && type !== 'checkbox'}
                     />
                 )}
+                {error && <p className="error-message">{error}</p>}
             </label>
-            {error && <p className="error-message">{error}</p>}
         </div>
     )
 }

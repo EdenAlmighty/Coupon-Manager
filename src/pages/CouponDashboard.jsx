@@ -15,6 +15,7 @@ export default function CouponDashboard() {
     const { isLoading, setIsLoading } = useLoading()
 
     useEffect(() => {
+        if (coupons.length) return
         loadCoupons()
     }, [filterBy, sortBy])
 

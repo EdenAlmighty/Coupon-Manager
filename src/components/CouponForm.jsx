@@ -6,15 +6,13 @@ import { Loader } from './Loader'
 
 export function CouponForm({ coupon, onSave }) {
     const [formCoupon, setFormCoupon] = useState(couponService.getEmptyCoupon())
-    const [error, setError] = useState('')
+    const [errors, setErrors] = useState({})
     const { isLoading, setIsLoading } = useLoading()
 
     useEffect(() => {
         if (coupon) {
-            // Pre-fill the form when editing a coupon
             setFormCoupon(coupon)
         } else {
-            // Default to percentage discount when creating new coupons
             setFormCoupon(prev => ({
                 ...prev,
                 discountType: 'percentage'
@@ -22,70 +20,69 @@ export function CouponForm({ coupon, onSave }) {
         }
     }, [coupon])
 
-function handleChange({ target }) {
-    const { name, value, checked } = target
+    function validateForm(formData) {
+        let validationErrors = {}
+        if (!formData.code) validationErrors.code = 'Code is required'
+        if (!formData.description) validationErrors.description = 'Description is required'
+        if (formData.discountValue === '' || formData.discountValue < 0) validationErrors.discountValue = 'Discount value must be a positive number'
+        if (formData.discountType === 'percentage' && formData.discountValue > 100) validationErrors.discountValue = 'Percentage discount cannot exceed 100%'
+        if (formData.usageLimit < 0) validationErrors.usageLimit = 'Usage limit cannot be negative'
 
-    let newFormCoupon = { ...formCoupon }
-
-    if (name === 'isStackable') {
-        newFormCoupon[name] = checked
-    } else if (name === 'expiryDate') {
-        newFormCoupon[name] = new Date(value).getTime()
-    } else if (name === 'discountType') {
-        newFormCoupon[name] = value
-        setError('')
-    } else if (name === 'discountValue' && formCoupon.discountType === 'percentage') {
-        if (value > 100) {
-            setError('Discount cannot exceed 100%')
-        } else {
-            setError('')
-        }
-        newFormCoupon[name] = value
-    } else {
-        newFormCoupon[name] = name === 'discountValue' && value === '' ? '' : value
+        return validationErrors
     }
 
-    setFormCoupon(newFormCoupon)
-}
+    function handleChange({ target }) {
+        const { name, value, checked, type } = target
 
-    async function handleSubmit(event) {
-        event.preventDefault()
-        if (error) return
-    
+        setFormCoupon(prevFormCoupon => {
+            const updatedValue = type === 'checkbox' ? checked : name === 'expiryDate' ? new Date(value).getTime() : value
+            const updatedCoupon = { ...prevFormCoupon, [name]: updatedValue }
+
+            const validationErrors = validateForm(updatedCoupon)
+            setErrors(validationErrors)
+            return updatedCoupon
+        })
+    }
+
+    async function handleSubmit(ev) {
+        ev.preventDefault()
+
+        const validationErrors = validateForm(formCoupon)
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors)
+            return
+        }
+
         setIsLoading(true)
-    
+
         try {
             await couponService.save(formCoupon)
             onSave()
             setFormCoupon(couponService.getEmptyCoupon())
+            setErrors({})
+
         } catch (err) {
             console.error("Failed to save coupon:", err)
         } finally {
             setIsLoading(false)
         }
     }
-    
 
     function handleReset() {
-        if (coupon) {
-            setFormCoupon(coupon)
-        } else {
-            setFormCoupon(couponService.getEmptyCoupon())
-        }
-        setError('')
+        setFormCoupon(coupon ? coupon : couponService.getEmptyCoupon())
+        setErrors({})
     }
-    
 
     return (
         <div className="coupon-form-container">
-
-            {/* The Form itself */}
+            <h2>{coupon && coupon._id ? 'Edit Coupon' : 'Create Coupon'}</h2>
             <form onSubmit={handleSubmit} className="coupon-form">
                 <CustomInput
                     label="Code:"
                     name="code"
                     value={formCoupon.code}
                     onChange={handleChange}
+                    error={errors.code}
                     required
                 />
                 <CustomInput
@@ -93,6 +90,7 @@ function handleChange({ target }) {
                     name="description"
                     value={formCoupon.description}
                     onChange={handleChange}
+                    error={errors.description}
                 />
                 <div className="joined-input-container">
                     <div className="discount-input-container">
@@ -102,8 +100,8 @@ function handleChange({ target }) {
                             name="discountValue"
                             value={formCoupon.discountValue}
                             onChange={handleChange}
+                            error={errors.discountValue}
                         />
-                        {error && <p className="error-message">{error}</p>}
                     </div>
                     <CustomInput
                         label="Discount Type:"
@@ -116,6 +114,7 @@ function handleChange({ target }) {
                             { value: 'percentage', label: '%' },
                             { value: 'flat', label: '₪' }
                         ]}
+                        error={errors.discountType}
                     />
                     <CustomInput
                         label="Is Stackable:"
@@ -123,6 +122,7 @@ function handleChange({ target }) {
                         name="isStackable"
                         checked={formCoupon.isStackable}
                         onChange={handleChange}
+                        error={errors.isStackable}
                     />
                 </div>
                 <div className="joined-input-container">
@@ -132,6 +132,7 @@ function handleChange({ target }) {
                         name="usageLimit"
                         value={formCoupon.usageLimit}
                         onChange={handleChange}
+                        error={errors.usageLimit}
                     />
                     <CustomInput
                         label="Expiry Date:"
@@ -139,9 +140,9 @@ function handleChange({ target }) {
                         name="expiryDate"
                         value={formCoupon.expiryDate ? new Date(formCoupon.expiryDate).toISOString().split('T')[0] : ''}
                         onChange={handleChange}
+                        error={errors.expiryDate}
                     />
                 </div>
-                {/* Buttons outside the form */}
                 <div className="form-actions">
                     <button className="primary" type="button" onClick={handleReset}>Undo</button>
                     <button className="primary" type="submit">{isLoading ? <Loader /> : 'Save Coupon'}</button>

@@ -14,11 +14,10 @@ export const couponService = {
 const STORAGE_KEY = 'coupon'
 
 async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy()) {
-    let coupons = await storageService.query(STORAGE_KEY)
     try {
+        let coupons = await storageService.query(STORAGE_KEY)
         if (!coupons || !coupons.length) {
             coupons = await _loadCoupons()
-            await storageService.post(STORAGE_KEY, coupons)
         }
         // Apply filters
         coupons = _applyFilters(coupons, filterBy)
@@ -55,7 +54,7 @@ function getEmptyCoupon() {
         description: "",
         discountType: "",
         discountValue: "",
-        expiryDate: "",
+        expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
         createdBy: "admin",
         createdAt: Date.now(),
         isStackable: false,
@@ -92,11 +91,12 @@ export async function _loadCoupons() {
             throw new Error('Failed to load coupons data')
         }
         const data = await response.json()
-        return data.map(coupon => ({
+        const couponsWithIds = await storageService.post(STORAGE_KEY, data.map(coupon => ({
             ...coupon,
-            _id: utilService.makeId(),
             createdAt: Date.now(),
-        }))
+            expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
+        })))
+        return couponsWithIds
     } catch (error) {
         console.error('Error loading coupons:', error)
         throw error

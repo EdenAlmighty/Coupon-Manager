@@ -18,7 +18,6 @@ export function UserProvider({ children }) {
 
     async function login(userCred) {
         try {
-            console.log(userCred)
             const user = await userService.login(userCred)
             if (user) {
                 setLoggedInUser(user)

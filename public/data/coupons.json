@@ -1,0 +1,46 @@
+[
+  {
+    "code": "SUMMER10",
+    "description": "10% off on orders above 90₪",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "expiryDate": 0,
+    "createdBy": "adminUser123",
+    "isStackable": true,
+    "usageLimit": 100,
+    "usageCount": 0
+  },
+  {
+    "code": "WINTER15",
+    "description": "15% off on orders above 150₪",
+    "discountType": "percentage",
+    "discountValue": 15,
+    "expiryDate": 0,
+    "createdBy": "adminUser123",
+    "isStackable": false,
+    "usageLimit": 50,
+    "usageCount": 0
+  },
+  {
+    "code": "FREESHIP",
+    "description": "Free shipping on orders over 200₪",
+    "discountType": "flat",
+    "discountValue": 0,
+    "expiryDate": 0,
+    "createdBy": "adminUser123",
+    "isStackable": true,
+    "usageLimit": 200,
+    "usageCount": 0
+  },
+  {
+    "code": "HOLIDAY20",
+    "description": "20% off sitewide for the holiday season",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "expiryDate": 0,
+    "createdBy": "adminUser123",
+    "isStackable": false,
+    "usageLimit": 50,
+    "usageCount": 0
+  }
+]

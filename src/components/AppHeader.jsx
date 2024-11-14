@@ -18,9 +18,9 @@ export default function AppHeader({ onLogin, onLogout, loggedInUser }) {
             </nav>
             <div className="header-actions">
                 {loggedInUser ? (
-                    <button onClick={onLogout}>Logout</button>
+                    <button className="primary" onClick={onLogout}>Logout</button>
                 ) : (
-                    <button onClick={onLogin}>Login</button>
+                    <button className="primary" onClick={onLogin}>Login</button>
                 )}
             </div>
         </header>

@@ -1,34 +1,48 @@
 .custom-input {
     position: relative;
+    margin-bottom: 1.5em;
+    white-space: nowrap;
 
     label {
         display: flex;
         flex-direction: column;
-        white-space: nowrap;
-        gap: em(5px);
+        color: $txt-clr;
+        gap: 0.3em;
+        font-size: 0.95em;
+
+    }
+    
+    .isStackable{
+        align-items: center;
     }
 
     input,
     select {
-        padding: em(10px) em(20px);
-        border-radius: .2em;
-        height: em(40px);
-
-        border: none;
-        transition: all .1s ease-in-out;
+        padding: 0em 1em;
+        border-radius: 0.4em;
+        height: 2.5em;
+        color: $txt-clr;
+        outline: none;
+        border: 1px solid $bgc-box;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        font-size: 1em;
+        font-family: p-regular;
 
         &:hover {
-            outline: 1px solid $clr-green;
+            border-color: $bgc-box;
         }
 
         &:focus {
-            outline: 2px solid $clr-green;
+            border-color: $clr-green;
+            box-shadow: 0 0 0 2px rgba($clr-green, 0.3);
         }
     }
 
     select,
     input[type="date"],
     input[type="checkbox"] {
+        color: $txt-clr;
         cursor: pointer;
         font-family: p-regular;
     }
@@ -36,8 +50,9 @@
 
 .error-message {
     position: absolute;
+    bottom: -1.2em;
     left: 0;
     color: red;
-    font-size: em(8px);
-    margin-top: em(10px);
+    font-size: 0.8em;
+    margin-top: 0.3em;
 }

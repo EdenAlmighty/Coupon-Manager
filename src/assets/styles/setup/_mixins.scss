@@ -70,8 +70,7 @@
         padding: 0;
         height: em(24px);
         font-size: 0;
-        // color: $color;
-        // cursor: pointer;
+        color: $txt-clr
     }
 }
 
@@ -79,7 +78,7 @@ button {
     @include button-styles($btn-txt, transparent, $btn-txt, $btn-txt, $btn-txt, $btn-txt-dark);
 
     &.primary {
-        @include button-styles($btn-txt-dark, $btn-bgc, $btn-txt-dark, $btn-txt-dark, $btn-hover-primary, $btn-txt);
+        @include button-styles($btn-txt, $clr-green, $btn-txt-dark, $btn-txt-dark, $btn-hover-primary, $btn-txt);
     }
 
     &.secondary {

@@ -90,11 +90,6 @@ export function CouponForm({ coupon, onSave }) {
 
     return (
         <div className="coupon-form-container">
-            {/* Buttons outside the form */}
-            <div className="form-actions">
-                <button type="button" onClick={handleReset}>Undo</button>
-                <button type="submit" onClick={handleSubmit}>{isLoading ? <Loader /> : 'Save Coupon'}</button>
-            </div>
 
             {/* The Form itself */}
             <form onSubmit={handleSubmit} className="coupon-form">
@@ -111,49 +106,58 @@ export function CouponForm({ coupon, onSave }) {
                     value={formCoupon.description}
                     onChange={handleChange}
                 />
-                <div className="discount-input-container">
+                <div className="joined-input-container">
+                    <div className="discount-input-container">
+                        <CustomInput
+                            label="Discount Value:"
+                            type="number"
+                            name="discountValue"
+                            value={formCoupon.discountValue}
+                            onChange={handleChange}
+                        />
+                        {error && <p className="error-message">{error}</p>}
+                    </div>
                     <CustomInput
-                        label="Discount Value:"
-                        type="number"
-                        name="discountValue"
-                        value={formCoupon.discountValue}
+                        label="Discount Type:"
+                        type="select"
+                        name="discountType"
+                        value={formCoupon.discountType}
+                        onChange={handleChange}
+                        options={[
+                            { value: '', label: '---' },
+                            { value: 'percentage', label: '%' },
+                            { value: 'flat', label: '₪' }
+                        ]}
+                    />
+                    <CustomInput
+                        label="Is Stackable:"
+                        type="checkbox"
+                        name="isStackable"
+                        checked={formCoupon.isStackable}
                         onChange={handleChange}
                     />
-                    {error && <p className="error-message">{error}</p>}
                 </div>
-                <CustomInput
-                    label="Discount Type:"
-                    type="select"
-                    name="discountType"
-                    value={formCoupon.discountType}
-                    onChange={handleChange}
-                    options={[
-                        { value: '', label: '---' },
-                        { value: 'percentage', label: '%' },
-                        { value: 'flat', label: '₪' }
-                    ]}
-                />
-                <CustomInput
-                    label="Is Stackable:"
-                    type="checkbox"
-                    name="isStackable"
-                    checked={formCoupon.isStackable}
-                    onChange={handleChange}
-                />
-                <CustomInput
-                    label="Usage Limit:"
-                    type="number"
-                    name="usageLimit"
-                    value={formCoupon.usageLimit}
-                    onChange={handleChange}
-                />
-                <CustomInput
-                    label="Expiry Date:"
-                    type="date"
-                    name="expiryDate"
-                    value={formCoupon.expiryDate ? new Date(formCoupon.expiryDate).toISOString().split('T')[0] : ''}
-                    onChange={handleChange}
-                />
+                <div className="joined-input-container">
+                    <CustomInput
+                        label="Usage Limit:"
+                        type="number"
+                        name="usageLimit"
+                        value={formCoupon.usageLimit}
+                        onChange={handleChange}
+                    />
+                    <CustomInput
+                        label="Expiry Date:"
+                        type="date"
+                        name="expiryDate"
+                        value={formCoupon.expiryDate ? new Date(formCoupon.expiryDate).toISOString().split('T')[0] : ''}
+                        onChange={handleChange}
+                    />
+                </div>
+                {/* Buttons outside the form */}
+                <div className="form-actions">
+                    <button className="primary" type="button" onClick={handleReset}>Undo</button>
+                    <button className="primary" type="submit">{isLoading ? <Loader /> : 'Save Coupon'}</button>
+                </div>
             </form>
         </div>
     )

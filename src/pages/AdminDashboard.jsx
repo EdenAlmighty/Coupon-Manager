@@ -72,7 +72,7 @@ export default function UsersPage() {
                         name="isAdmin"
                         checked={newUser.isAdmin}
                         onChange={handleChange} />
-                    <button type="submit">Create User</button>
+                    <button className="primary" type="submit">Create User</button>
                 </form>
                 <UserList users={users} />
             </section>

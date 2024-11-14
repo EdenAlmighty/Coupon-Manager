@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { couponService } from "../services/coupon.service"
 import { CouponList } from "../components/CouponList"
-import CouponModal from "../components/CouponModal"
+import { CouponForm } from "../components/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
 import { useLoading } from "../hooks/useLoading"
+import CustomModal from "../components/CustomModal"
 
 export default function CouponDashboard() {
     const [coupons, setCoupons] = useState([])
@@ -41,17 +42,18 @@ export default function CouponDashboard() {
         }
     }
 
-    function handleEdit(coupon) {
-        setCouponToEdit(coupon)
-        setIsModalOpen(true)
-    }
-
     function handleCreate() {
         setCouponToEdit(couponService.getEmptyCoupon())
         setIsModalOpen(true)
     }
 
+    function handleEdit(coupon) {
+        setCouponToEdit(coupon)
+        setIsModalOpen(true)
+    }
+
     function handleSave() {
+        setCouponToEdit(null)
         setIsModalOpen(false)
         loadCoupons()
     }
@@ -67,12 +69,11 @@ export default function CouponDashboard() {
     return (
         <>
             <button onClick={handleCreate}>Create New Coupon</button>
-            <CouponModal
-                open={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onSave={handleSave}
-                couponToEdit={couponToEdit || couponService.getEmptyCoupon()}
-            />
+
+            <CustomModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <CouponForm coupon={couponToEdit} onSave={handleSave} />
+            </CustomModal>
+
             <CouponFilter filterBy={filterBy} onFilter={handleFilter} />
             {isLoading ? (
                 <div>Loading...</div>

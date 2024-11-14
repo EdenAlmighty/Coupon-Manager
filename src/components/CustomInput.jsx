@@ -3,7 +3,7 @@ import React from 'react'
 export function CustomInput({ label, type = 'text', name, value, onChange, options = [], error, ...rest }) {
     return (
         <div className="custom-input">
-            <label htmlFor={name}>
+            <label htmlFor={name} className={name}>
                 {label}
                 {type === 'select' ? (
                     <select

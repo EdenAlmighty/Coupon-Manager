@@ -8,7 +8,7 @@ export const couponService = {
     save,
     getEmptyCoupon,
     getDefaultFilter,
-    getDefaultSortBy
+    getDefaultSortBy,
 }
 
 const STORAGE_KEY = 'coupon'

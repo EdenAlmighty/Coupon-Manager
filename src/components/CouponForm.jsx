@@ -22,56 +22,38 @@ export function CouponForm({ coupon, onSave }) {
         }
     }, [coupon])
 
-    function handleChange({ target }) {
-        const { name, value, checked } = target
+function handleChange({ target }) {
+    const { name, value, checked } = target
 
-        if (name === 'isStackable') {
-            setFormCoupon({
-                ...formCoupon,
-                [name]: checked,
-            })
-            return
-        }
+    let newFormCoupon = { ...formCoupon }
 
-        if (name === 'expiryDate') {
-            const timestamp = new Date(value).getTime()
-            console.log('timestamp: ', timestamp)
-
-            setFormCoupon({
-                ...formCoupon,
-                [name]: timestamp,
-            })
-            return
-        }
-
-        if (name === 'discountType') {
-            setFormCoupon({
-                ...formCoupon,
-                [name]: value,
-            })
+    if (name === 'isStackable') {
+        newFormCoupon[name] = checked
+    } else if (name === 'expiryDate') {
+        newFormCoupon[name] = new Date(value).getTime()
+    } else if (name === 'discountType') {
+        newFormCoupon[name] = value
+        setError('')
+    } else if (name === 'discountValue' && formCoupon.discountType === 'percentage') {
+        if (value > 100) {
+            setError('Discount cannot exceed 100%')
+        } else {
             setError('')
         }
-
-        if (name === 'discountValue' && formCoupon.discountType === 'percentage') {
-            if (value > 100) {
-                setError('Discount cannot exceed 100%')
-            } else {
-                setError('')
-            }
-        }
-
-        setFormCoupon({
-            ...formCoupon,
-            [name]: name === 'discountValue' && value === '' ? '' : value,
-        })
+        newFormCoupon[name] = value
+    } else {
+        newFormCoupon[name] = name === 'discountValue' && value === '' ? '' : value
     }
 
+    setFormCoupon(newFormCoupon)
+}
 
     async function handleSubmit(event) {
-        setIsLoading(true)
         event.preventDefault()
         if (error) return
-
+    
+        setIsLoading(true)
+    
         try {
             await couponService.save(formCoupon)
             onSave()
@@ -82,11 +64,17 @@ export function CouponForm({ coupon, onSave }) {
             setIsLoading(false)
         }
     }
+    
 
     function handleReset() {
-        setFormCoupon(couponService.getEmptyCoupon())
+        if (coupon) {
+            setFormCoupon(coupon)
+        } else {
+            setFormCoupon(couponService.getEmptyCoupon())
+        }
         setError('')
     }
+    
 
     return (
         <div className="coupon-form-container">

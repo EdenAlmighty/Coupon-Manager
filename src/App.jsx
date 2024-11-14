@@ -26,15 +26,15 @@ function App() {
 
   return (
     <Router>
-      <AppHeader 
-        onLogin={handleOpen} 
-        onLogout={logout} 
-        loggedInUser={loggedInUser} 
+      <AppHeader
+        onLogin={handleOpen}
+        onLogout={logout}
+        loggedInUser={loggedInUser}
       />
-      <LoginModal 
-        open={open} 
-        onClose={handleClose} 
-        onLogin={handleLogin} 
+      <LoginModal
+        open={open}
+        onClose={handleClose}
+        onLogin={handleLogin}
       />
       <main>
         <Routes>

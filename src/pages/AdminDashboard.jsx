@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { userService } from "../services/user.service"
 import { CustomInput } from "../components/CustomInput"
+import { UserList } from "../components/UserList"
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
@@ -41,13 +42,6 @@ export default function UsersPage() {
     return (
         <div className="users-page">
             <h2>All Users</h2>
-            <ul>
-                {users.map(user => (
-                    <li key={user._id}>
-                        <strong>{user.fullname}</strong> ({user.username}) - {user.isAdmin ? 'Admin' : 'User'}
-                    </li>
-                ))}
-            </ul>
             <section className="create-user">
                 <h2>Create New User</h2>
                 <form onSubmit={handleCreateUser} className="create-user-form">
@@ -80,6 +74,7 @@ export default function UsersPage() {
                         onChange={handleChange} />
                     <button type="submit">Create User</button>
                 </form>
+                <UserList users={users} />
             </section>
         </div>
     )

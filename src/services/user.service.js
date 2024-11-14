@@ -25,7 +25,8 @@ export async function getUsers() {
         // If not, check in localStorage
         const storedUsers = localStorage.getItem(STORAGE_KEY_USERS)
         if (storedUsers) {
-            usersCache = JSON.parse(storedUsers)
+            usersCache = decryptData(storedUsers)
+            // usersCache = JSON.parse(storedUsers)
             return usersCache
         }
 
@@ -41,7 +42,9 @@ export async function getUsers() {
             _id: utilService.makeId()
         }))
 
-        localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(usersCache))
+        // Encrypt and save to local storage
+        localStorage.setItem(STORAGE_KEY_USERS, encryptData(usersCache))
+        // localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(usersCache))
         return usersCache
     } catch (error) {
         console.error('Failed to get users:', error)
@@ -100,11 +103,14 @@ async function signup(newUser) {
         // Hash password before adding user
         newUser.password = CryptoJS.SHA256(newUser.password).toString()
         newUser._id = utilService.makeId()
-        
+
         // Add the new user to the localStorage users list
         if (!usersCache) usersCache = []
         usersCache.push(newUser)
-        localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(usersCache))
+
+        // Encrypt and save to local storage
+        localStorage.setItem(STORAGE_KEY_USERS, encryptData(usersCache))
+        // localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(usersCache))
 
         console.log(`User ${newUser.fullname} added successfully`)
         return newUser
@@ -133,4 +139,18 @@ function _saveSessionUser(user) {
     }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
     return user
+}
+
+function encryptData(data) {
+    return CryptoJS.AES.encrypt(JSON.stringify(data), 'your-secret-key').toString();
+}
+
+function decryptData(data) {
+    try {
+        const bytes = CryptoJS.AES.decrypt(data, 'your-secret-key');
+        return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch (error) {
+        console.error('Decryption failed:', error);
+        return null;
+    }
 }

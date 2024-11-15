@@ -16,7 +16,7 @@ export const userService = {
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 const STORAGE_KEY_USERS = 'users'
 const SECRET_KEY = import.meta.env.VITE_SECRET_KEY || 'secret'
-const dataPath = import.meta.env.VITE_DATA_PATH || '/Coupon-Manager/data'
+const dataPath = import.meta.env.VITE_DATA_PATH || '/data'
 
 let usersCache = null
 

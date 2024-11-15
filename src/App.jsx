@@ -9,9 +9,9 @@ function App() {
   const { loggedInUser, login, logout } = useUser()
 
   return (
-    <Router>
+    <Router basename="/Coupon-Manager">
       <AppHeader
-        onLogin={() => {}}
+        onLogin={() => { }}
         onLogout={logout}
         loggedInUser={loggedInUser}
       />

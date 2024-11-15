@@ -5,6 +5,7 @@ import { CouponForm } from "../components/forms/CouponForm"
 import { CouponFilter } from "../components/CouponFilter"
 import { useLoading } from "../hooks/useLoading"
 import CustomModal from "../components/modals/CustomModal"
+import { userService } from "../services/user.service"
 
 export default function CouponDashboard() {
     const [coupons, setCoupons] = useState([])
@@ -12,11 +13,13 @@ export default function CouponDashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [filterBy, setFilterBy] = useState(couponService.getDefaultFilter())
     const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
+    const [users, setUsers] = useState([])
     const { isLoading, setIsLoading } = useLoading()
 
     useEffect(() => {
+        handleGetUsers()
         loadCoupons()
-    }, [filterBy, sortBy])
+    }, [filterBy, sortBy]) 
 
     async function loadCoupons() {
         setIsLoading(true)
@@ -66,15 +69,23 @@ export default function CouponDashboard() {
         setSortBy(sortBy)
     }
 
+    async function handleGetUsers() {
+        try {
+            const users = await userService.getUsers()
+            setUsers(users)
+        } catch (err) {
+            console.error("Failed to fetch users:", err)
+        }
+    }
+
     return (
         <>
-            <button onClick={handleCreate}>Create New Coupon</button>
 
             <CustomModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <CouponForm coupon={couponToEdit} onSave={handleSave} />
             </CustomModal>
 
-            <CouponFilter filterBy={filterBy} onFilter={handleFilter} />
+            <CouponFilter filterBy={filterBy} onFilter={handleFilter} users={users} />
             <CouponList
                 coupons={coupons}
                 onRemove={handleRemove}
@@ -82,6 +93,7 @@ export default function CouponDashboard() {
                 filterBy={filterBy}
                 onSort={handleSort}
                 sortBy={sortBy}
+                onCreate={handleCreate}
             />
         </>
     )

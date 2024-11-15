@@ -2,9 +2,12 @@ import React from 'react'
 import { CouponPreview } from './CouponPreview'
 import { SortButton } from './SortButton'
 
-export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
+export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy, onCreate }) {
 
     return (
+        <>
+        <button className="create-coupon-btn primary" onClick={onCreate}>Create New Coupon</button>
+
         <table className="coupon-list-container">
             <thead>
                 <tr>
@@ -61,5 +64,6 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy }) {
                 )}
             </tbody>
         </table>
+        </>
     )
 }

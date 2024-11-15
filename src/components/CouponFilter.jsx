@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomInput from './CustomInput';
 
-export function CouponFilter({ filterBy, onFilter }) {
+export function CouponFilter({ filterBy, onFilter, users }) {
     function handleChange(field, value) {
         if (field === 'isStackable' && value !== '') {
             value = value === 'true'
@@ -25,9 +25,7 @@ export function CouponFilter({ filterBy, onFilter }) {
                 onChange={(ev) => handleChange('createdBy', ev.target.value)}
                 options={[
                     { value: 'all', label: 'All' },
-                    { value: 'adminUser123', label: 'adminUser123' },
-                    { value: 'test', label: 'test' },
-                    { value: 'admof', label: 'admof' }
+                    ...users.map(user => ({ value: user._id, label: user.fullname }))
                 ]}
             />
             {/* Search all text options, createdBy, couponCode and description */}

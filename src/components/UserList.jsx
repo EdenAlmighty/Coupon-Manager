@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { UserPreview } from './UserPreview'
+import { Pagination } from './Pagination'
 
 export function UserList({ users, onRemove, onCreate }) {
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 5
+
+    const totalPages = Math.ceil(users.length / itemsPerPage)
+    const paginatedUsers = users.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    )
+
+    function handlePageChange(newPage) {
+        setCurrentPage(newPage)
+    }
     return (
         <section className='user-list-container'>
             <button onClick={onCreate} className="primary">Create New User</button>
@@ -15,8 +28,8 @@ export function UserList({ users, onRemove, onCreate }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.length > 0 ? (
-                        users.map((user, idx) => (
+                    {paginatedUsers.length > 0 ? (
+                        paginatedUsers.map((user, idx) => (
                             <tr key={user._id + idx} className="user-preview">
                                 <UserPreview user={user} />
                                 <td>
@@ -31,6 +44,11 @@ export function UserList({ users, onRemove, onCreate }) {
                     )}
                 </tbody>
             </table>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </section>
     )
 }

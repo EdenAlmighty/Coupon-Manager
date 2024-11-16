@@ -72,19 +72,19 @@
         transition: background-color 0.3s ease;
     }
 
-    .delete-btn {
-        background-color: #e74c3c;
+}
+.delete-btn {
+    background-color: #e74c3c;
 
-        :hover {
-            background-color: #c0392b;
-        }
+    :hover {
+        background-color: #c0392b;
     }
+}
 
-    .edit-btn {
-        background-color: #3498db;
+.edit-btn {
+    background-color: #3498db;
 
-        :hover {
-            background-color: #2980b9;
-        }
+    :hover {
+        background-color: #2980b9;
     }
 }

@@ -15,6 +15,8 @@ export default function CouponDashboard() {
     const [filterBy, setFilterBy] = useState(couponService.getDefaultFilter())
     const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
     const [users, setUsers] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage] = useState(5) 
     const { isLoading, setIsLoading } = useLoading()
     const { loggedInUser } = useUser()
 
@@ -86,6 +88,16 @@ export default function CouponDashboard() {
         }
     }
 
+    const totalPages = Math.ceil(coupons.length / itemsPerPage)
+    const paginatedCoupons = coupons.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    )
+
+    function handlePageChange(newPage) {
+        setCurrentPage(newPage)
+    }
+
     return (
         <>
 
@@ -95,7 +107,7 @@ export default function CouponDashboard() {
 
             <CouponFilter filterBy={filterBy} onFilter={handleFilter} users={users} />
             <CouponList
-                coupons={coupons}
+                coupons={paginatedCoupons}
                 onRemove={handleRemove}
                 onEdit={handleEdit}
                 filterBy={filterBy}
@@ -103,6 +115,17 @@ export default function CouponDashboard() {
                 sortBy={sortBy}
                 onCreate={handleCreate}
             />
+            <div className="pagination">
+                {Array.from({ length: totalPages }, (_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => handlePageChange(idx + 1)}
+                        className={currentPage === idx + 1 ? "active" : ""}
+                    >
+                        {idx + 1}
+                    </button>
+                ))}
+            </div>
         </>
     )
 }

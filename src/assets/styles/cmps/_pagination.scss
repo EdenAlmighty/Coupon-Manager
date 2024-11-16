@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: em(20px);
+    gap: em(10px);
+
+    button {
+        padding: em(8px) em(12px);
+        border: none;
+        border-radius: 4px;
+        background-color: $bgc-box;
+        color: $txt-clr;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: $clr-green;
+        }
+
+        &.active {
+            background-color: $clr-green;
+            color: $bgc-main;
+            font-weight: bold;
+        }
+    }
+}

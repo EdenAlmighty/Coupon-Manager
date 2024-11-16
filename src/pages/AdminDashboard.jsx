@@ -53,13 +53,12 @@ export default function UsersPage() {
         <div className="admin-dashboard">
             <h2>Admin Dashboard</h2>
             <section className="user-management">
-                <button onClick={handleCreate} className="primary">Create New User</button>
 
                 <CustomModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
                     <UserForm userToEdit={userToEdit} onSave={handleSave} />
                 </CustomModal>
 
-                <UserList users={users} onRemove={handleRemove} />
+                <UserList users={users} onRemove={handleRemove} onCreate={handleCreate} />
             </section>
         </div>
     )

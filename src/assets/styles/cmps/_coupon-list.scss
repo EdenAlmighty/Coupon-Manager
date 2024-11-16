@@ -1,9 +1,12 @@
 .coupon-list-container {
     width: 90%;
     margin: 0 auto;
-    border-collapse: separate;
-    border-spacing: 0 em(10px);
-    table-layout: fixed;
+
+    .coupon-list{
+        border-collapse: separate;
+        border-spacing: 0 em(10px);
+        table-layout: fixed;
+    }
 
     tr {
         background-color: lighten($bgc-main, $amount: 5);

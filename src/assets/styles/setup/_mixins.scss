@@ -63,13 +63,16 @@
     }
 
     &.icon-btn {
-        position: absolute;
-        border: none;
-        right: 5px;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: bottom;
         padding: 0;
-        height: em(24px);
-        font-size: 0;
-        color: $clr-green
+        margin-left: em(5px);
+        height: em(30px);
+        width: em(30px);
+        color: $clr-green;
     }
 
     &.modal-close-btn{

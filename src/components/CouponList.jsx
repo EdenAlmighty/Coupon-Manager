@@ -5,10 +5,10 @@ import { SortButton } from './SortButton'
 export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy, onCreate }) {
 
     return (
-        <>
+        <section className='coupon-list-container'>
         <button className="create-coupon-btn primary" onClick={onCreate}>Create New Coupon</button>
 
-        <table className="coupon-list-container">
+        <table className="coupon-list">
             <thead>
                 <tr>
                     <th className="createdBy">
@@ -64,6 +64,6 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy, onCreate
                 )}
             </tbody>
         </table>
-        </>
+        </section>
     )
 }

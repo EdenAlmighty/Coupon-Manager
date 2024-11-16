@@ -9,7 +9,7 @@ export function CouponPreview({ coupon }) {
 
     return (
         <>
-            <td>{coupon.createdBy}</td>
+            <td>{coupon.createdBy.fullname}</td>
             <td>{coupon.code}</td>
 
             {/* Conditionally render tooltip for description */}

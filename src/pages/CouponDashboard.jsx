@@ -6,6 +6,7 @@ import { CouponFilter } from "../components/CouponFilter"
 import { useLoading } from "../hooks/useLoading"
 import CustomModal from "../components/modals/CustomModal"
 import { userService } from "../services/user.service"
+import { useUser } from "../hooks/useUser"
 
 export default function CouponDashboard() {
     const [coupons, setCoupons] = useState([])
@@ -15,6 +16,7 @@ export default function CouponDashboard() {
     const [sortBy, setSortBy] = useState(couponService.getDefaultSortBy())
     const [users, setUsers] = useState([])
     const { isLoading, setIsLoading } = useLoading()
+    const { loggedInUser } = useUser()
 
     useEffect(() => {
         handleGetUsers()
@@ -55,10 +57,16 @@ export default function CouponDashboard() {
         setIsModalOpen(true)
     }
 
-    function handleSave() {
-        setCouponToEdit(null)
-        setIsModalOpen(false)
-        loadCoupons()
+    async function handleSave(coupon) {
+        try{
+            await couponService.save(coupon, loggedInUser)
+            setCouponToEdit(null)
+            setIsModalOpen(false)
+            loadCoupons()
+
+        } catch (err) {
+            console.error("Failed to save coupon:", err)
+        }
     }
 
     function handleFilter(filterBy) {

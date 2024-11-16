@@ -59,8 +59,7 @@ export function CouponForm({ coupon, onSave }) {
         setIsLoading(true)
 
         try {
-            await couponService.save(formCoupon)
-            onSave()
+            onSave(formCoupon)
             setFormCoupon(couponService.getEmptyCoupon())
             setErrors({})
 

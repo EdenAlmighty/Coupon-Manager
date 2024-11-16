@@ -12,6 +12,7 @@ export const couponService = {
 }
 
 const STORAGE_KEY = 'coupon'
+const dataPath = import.meta.env.VITE_DATA_PATH || '/data'
 
 async function query(filterBy = getDefaultFilter(), sortBy = getDefaultSortBy()) {
     try {
@@ -40,10 +41,18 @@ async function remove(entityId) {
     return storageService.remove(STORAGE_KEY, entityId)
 }
 
-async function save(coupon) {
+async function save(coupon, user) {
+    if (!user) throw new Error('User not logged in')
+
     if (coupon._id) {
         return storageService.put(STORAGE_KEY, coupon)
     } else {
+        coupon.createdBy = {
+            userID: user._id,
+            username: user.username,
+            fullname: user.fullname,
+            time: Date.now(),
+        }
         return storageService.post(STORAGE_KEY, coupon)
     }
 }
@@ -55,8 +64,6 @@ function getEmptyCoupon() {
         discountType: "",
         discountValue: "",
         expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-        createdBy: "admin",
-        createdAt: Date.now(),
         isStackable: false,
         usageLimit: 1,
         usageCount: 0,
@@ -84,18 +91,37 @@ function getDefaultSortBy() {
 }
 
 // Private functions
+import { userService } from './user.service'
+
 export async function _loadCoupons() {
     try {
-        const response = await fetch(`${import.meta.env.VITE_DATA_PATH}/coupons.json`);
+        const response = await fetch(`${dataPath}/coupons.json`)
         if (!response.ok) {
             throw new Error('Failed to load coupons data')
         }
+
         const data = await response.json()
-        const couponsWithIds = await storageService.post(STORAGE_KEY, data.map(coupon => ({
-            ...coupon,
-            createdAt: Date.now(),
-            expiryDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-        })))
+        const users = await userService.getUsers()
+
+        const couponsWithIds = await storageService.post(STORAGE_KEY, data.map(coupon => {
+            // If the coupon already has a createdBy object return that
+            if (coupon.createdBy && typeof coupon.createdBy === 'object') {
+                return coupon
+            }
+
+            // If the coupon doesn't have a createdBy object, find the user and add it
+            const user = users.find(user => user.username === coupon.createdBy)
+            return {
+                ...coupon,
+                createdBy: {
+                    userID: user?._id || "unknown",
+                    fullname: user?.fullname || "Unknown User",
+                    time: coupon.createdAt || Date.now(),
+                },
+                expiryDate: coupon.expiryDate || (Date.now() + 30 * 24 * 60 * 60 * 1000),
+            }
+        }))
+
         return couponsWithIds
     } catch (error) {
         console.error('Error loading coupons:', error)
@@ -113,7 +139,7 @@ function _applyFilters(coupons, filterBy) {
         )
     }
     if (filterBy.createdBy) {
-        coupons = coupons.filter(coupon => coupon.createdBy === filterBy.createdBy)
+        coupons = coupons.filter(coupon => coupon.createdBy.userID === filterBy.createdBy || coupon.createdBy.username === filterBy.createdBy)
     }
     if (filterBy.discountType) {
         coupons = coupons.filter(coupon => coupon.discountType === filterBy.discountType)

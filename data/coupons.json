@@ -5,7 +5,11 @@
     "discountType": "percentage",
     "discountValue": 10,
     "expiryDate": 1709472000000,
-    "createdBy": "admin",
+    "createdBy": {
+      "userID": "u101",
+      "fullname": "Admin User",
+      "time": 1709472000000
+    },
     "isStackable": true,
     "usageLimit": 100,
     "usageCount": 0
@@ -16,7 +20,11 @@
     "discountType": "percentage",
     "discountValue": 15,
     "expiryDate": 1709472000000,
-    "createdBy": "john",
+    "createdBy": {
+      "userID": "u102",
+      "fullname": "John Doe",
+      "time": 1709472000000
+    },
     "isStackable": false,
     "usageLimit": 50,
     "usageCount": 0
@@ -27,7 +35,11 @@
     "discountType": "flat",
     "discountValue": 0,
     "expiryDate": 1709472000000,
-    "createdBy": "jane",
+    "createdBy": {
+      "userID": "u103",
+      "fullname": "Jane Doe",
+      "time": 1709472000000
+    },
     "isStackable": true,
     "usageLimit": 200,
     "usageCount": 0
@@ -38,7 +50,11 @@
     "discountType": "percentage",
     "discountValue": 20,
     "expiryDate": 1709472000000,
-    "createdBy": "emma",
+    "createdBy": {
+      "userID": "u105",
+      "fullname": "Emma Brown",
+      "time": 1709472000000
+    },
     "isStackable": false,
     "usageLimit": 50,
     "usageCount": 0
@@ -49,7 +65,11 @@
     "discountType": "percentage",
     "discountValue": 5,
     "expiryDate": 1709472000000,
-    "createdBy": "liam",
+    "createdBy": {
+      "userID": "u106",
+      "fullname": "Liam Wilson",
+      "time": 1709472000000
+    },
     "isStackable": true,
     "usageLimit": 100,
     "usageCount": 0
@@ -60,7 +80,11 @@
     "discountType": "percentage",
     "discountValue": 30,
     "expiryDate": 1709472000000,
-    "createdBy": "olivia",
+    "createdBy": {
+      "userID": "u107",
+      "fullname": "Olivia Johnson",
+      "time": 1709472000000
+    },
     "isStackable": false,
     "usageLimit": 20,
     "usageCount": 0
@@ -71,7 +95,11 @@
     "discountType": "flat",
     "discountValue": 50,
     "expiryDate": 1709472000000,
-    "createdBy": "noah",
+    "createdBy": {
+      "userID": "u108",
+      "fullname": "Noah Martinez",
+      "time": 1709472000000
+    },
     "isStackable": true,
     "usageLimit": 70,
     "usageCount": 0
@@ -82,7 +110,11 @@
     "discountType": "percentage",
     "discountValue": 25,
     "expiryDate": 1709472000000,
-    "createdBy": "sophia",
+    "createdBy": {
+      "userID": "u109",
+      "fullname": "Sophia Garcia",
+      "time": 1709472000000
+    },
     "isStackable": false,
     "usageLimit": 40,
     "usageCount": 0
@@ -93,7 +125,11 @@
     "discountType": "percentage",
     "discountValue": 10,
     "expiryDate": 1709472000000,
-    "createdBy": "james",
+    "createdBy": {
+      "userID": "u110",
+      "fullname": "James Anderson",
+      "time": 1709472000000
+    },
     "isStackable": true,
     "usageLimit": 80,
     "usageCount": 0
@@ -104,7 +140,11 @@
     "discountType": "flat",
     "discountValue": 100,
     "expiryDate": 1709472000000,
-    "createdBy": "admin",
+    "createdBy": {
+      "userID": "u101",
+      "fullname": "Admin User",
+      "time": 1709472000000
+    },
     "isStackable": false,
     "usageLimit": 30,
     "usageCount": 0

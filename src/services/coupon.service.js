@@ -183,6 +183,11 @@ function _sortCoupons(coupons, sortBy) {
             case 'isStackable':
                 comparison = (a.isStackable === b.isStackable) ? 0 : (a.isStackable ? 1 : -1)
                 break
+            case 'createdBy':
+                const nameA = a.createdBy.fullname.toLowerCase()
+                const nameB = b.createdBy.fullname.toLowerCase()
+                comparison = nameA < nameB ? -1 : nameA > nameB ? 1 : 0
+                break
             default:
                 if (a[sortBy.by] < b[sortBy.by]) comparison = -1
                 if (a[sortBy.by] > b[sortBy.by]) comparison = 1

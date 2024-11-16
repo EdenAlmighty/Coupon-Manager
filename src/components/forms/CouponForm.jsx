@@ -36,16 +36,29 @@ export function CouponForm({ coupon, onSave }) {
 
     function handleChange({ target }) {
         const { name, value, checked, type } = target
-
+    
         setFormCoupon(prevFormCoupon => {
-            const updatedValue = type === 'checkbox' ? checked : name === 'expiryDate' ? new Date(value).getTime() : value
+            let updatedValue
+    
+            if (name === 'discountValue' || name === 'usageLimit') {
+                // Ensure numbers are stored as numbers
+                updatedValue = Number(value) 
+            } else if (type === 'checkbox') {
+                updatedValue = checked
+            } else if (name === 'expiryDate') {
+                updatedValue = new Date(value).getTime()
+            } else {
+                updatedValue = value
+            }
+    
             const updatedCoupon = { ...prevFormCoupon, [name]: updatedValue }
-
+    
             const validationErrors = validateForm(updatedCoupon)
             setErrors(validationErrors)
             return updatedCoupon
         })
     }
+    
 
     async function handleSubmit(ev) {
         ev.preventDefault()

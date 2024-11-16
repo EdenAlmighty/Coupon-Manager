@@ -1,0 +1,152 @@
+[
+  {
+    "code": "SUMMER10",
+    "description": "10% off on orders above 90₪",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u101",
+      "fullname": "Admin User",
+      "time": 1709472000000
+    },
+    "isStackable": true,
+    "usageLimit": 100,
+    "usageCount": 0
+  },
+  {
+    "code": "WINTER15",
+    "description": "15% off on orders above 150₪",
+    "discountType": "percentage",
+    "discountValue": 15,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u102",
+      "fullname": "John Doe",
+      "time": 1709472000000
+    },
+    "isStackable": false,
+    "usageLimit": 50,
+    "usageCount": 0
+  },
+  {
+    "code": "FREESHIP",
+    "description": "Free shipping on orders over 200₪",
+    "discountType": "flat",
+    "discountValue": 0,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u103",
+      "fullname": "Jane Doe",
+      "time": 1709472000000
+    },
+    "isStackable": true,
+    "usageLimit": 200,
+    "usageCount": 0
+  },
+  {
+    "code": "HOLIDAY20",
+    "description": "20% off sitewide for the holiday season",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u105",
+      "fullname": "Emma Brown",
+      "time": 1709472000000
+    },
+    "isStackable": false,
+    "usageLimit": 50,
+    "usageCount": 0
+  },
+  {
+    "code": "WELCOME5",
+    "description": "5% off for new customers",
+    "discountType": "percentage",
+    "discountValue": 5,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u106",
+      "fullname": "Liam Wilson",
+      "time": 1709472000000
+    },
+    "isStackable": true,
+    "usageLimit": 100,
+    "usageCount": 0
+  },
+  {
+    "code": "FLASH30",
+    "description": "30% off for flash sale",
+    "discountType": "percentage",
+    "discountValue": 30,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u107",
+      "fullname": "Olivia Johnson",
+      "time": 1709472000000
+    },
+    "isStackable": false,
+    "usageLimit": 20,
+    "usageCount": 0
+  },
+  {
+    "code": "SAVE50",
+    "description": "Flat 50₪ off on orders above 300₪",
+    "discountType": "flat",
+    "discountValue": 50,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u108",
+      "fullname": "Noah Martinez",
+      "time": 1709472000000
+    },
+    "isStackable": true,
+    "usageLimit": 70,
+    "usageCount": 0
+  },
+  {
+    "code": "SPRING25",
+    "description": "25% off for spring collection",
+    "discountType": "percentage",
+    "discountValue": 25,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u109",
+      "fullname": "Sophia Garcia",
+      "time": 1709472000000
+    },
+    "isStackable": false,
+    "usageLimit": 40,
+    "usageCount": 0
+  },
+  {
+    "code": "FALL10",
+    "description": "10% off for fall season",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u110",
+      "fullname": "James Anderson",
+      "time": 1709472000000
+    },
+    "isStackable": true,
+    "usageLimit": 80,
+    "usageCount": 0
+  },
+  {
+    "code": "SHOP100",
+    "description": "Flat 100₪ off on orders above 500₪",
+    "discountType": "flat",
+    "discountValue": 100,
+    "expiryDate": 1709472000000,
+    "createdBy": {
+      "userID": "u101",
+      "fullname": "Admin User",
+      "time": 1709472000000
+    },
+    "isStackable": false,
+    "usageLimit": 30,
+    "usageCount": 0
+  }
+]

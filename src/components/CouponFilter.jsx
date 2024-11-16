@@ -35,6 +35,7 @@ export function CouponFilter({ filterBy, onFilter, users }) {
                 id="txt"
                 name="txt"
                 value={filterBy.txt}
+                placeholder="Search..."
                 onChange={(ev) => handleChange('txt', ev.target.value)}
             />
 

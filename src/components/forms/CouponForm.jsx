@@ -106,6 +106,7 @@ export function CouponForm({ coupon, onSave }) {
                     name="description"
                     value={formCoupon.description}
                     onChange={handleChange}
+                    placeholder="10% discount on any purchase"
                     error={errors.description}
                 />
                 <div className="joined-input-container">

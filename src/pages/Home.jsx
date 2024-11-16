@@ -31,12 +31,7 @@ export default function Home({ login }) {
 
     return (
         <div className="home-content">
-            <section className="welcome-section">
-                <h1>Coupon Manager</h1>
-                <button className="primary" onClick={handleOpen}>
-                    Login
-                </button>
-            </section>
+            <section className="welcome-section"></section>
             <CustomModal open={isModalOpen} onClose={handleClose}>
                 <LoginForm onLogin={handleLogin} />
             </CustomModal>

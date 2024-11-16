@@ -45,7 +45,6 @@ export async function getUsers() {
         usersCache = data.map(user => ({
             ...user,
             password: CryptoJS.SHA256(user.password).toString(),
-            _id: utilService.makeId()
         }))
 
         // Encrypt and save as a single encrypted JSON string

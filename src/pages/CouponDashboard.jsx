@@ -112,6 +112,7 @@ export default function CouponDashboard() {
             <CouponFilter filterBy={filterBy} onFilter={handleFilter} users={users} />
             <CouponList
                 coupons={paginatedCoupons}
+                searchText={filterBy.txt} 
                 onRemove={handleRemove}
                 onEdit={handleEdit}
                 filterBy={filterBy}

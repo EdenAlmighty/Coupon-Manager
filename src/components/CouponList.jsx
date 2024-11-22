@@ -3,7 +3,7 @@ import { CouponPreview } from './CouponPreview'
 import { SortButton } from './SortButton'
 import { Pagination } from './Pagination'
 
-export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy, onCreate }) {
+export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy, onCreate, searchText }) {
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
 
@@ -63,7 +63,7 @@ export function CouponList({ coupons, onRemove, onEdit, onSort, sortBy, onCreate
                     {paginatedCoupons.length > 0 ? (
                         paginatedCoupons.map((coupon, idx) => (
                             <tr key={coupon._id + idx} className="coupon-preview">
-                                <CouponPreview coupon={coupon} />
+                                <CouponPreview coupon={coupon} searchText={searchText} />
                                 <td>
                                     <button className="delete-btn" onClick={() => onRemove(coupon._id)}>X</button>
                                     <button className="edit-btn" onClick={() => onEdit(coupon)}>Edit</button>

@@ -1,10 +1,15 @@
-.coupon-filter{
+.coupon-filter {
     display: flex;
     width: max-content;
     justify-self: center;
     align-items: center;
-    padding: 30px 60px;
+    padding: em(30px) em(60px);
     background-color: $bgc-box;
     gap: em(30px);
     margin-bottom: em(20px);
+}
+
+.highlight {
+    background-color: rgb(241, 243, 112);
+    font-family: p-bold;
 }

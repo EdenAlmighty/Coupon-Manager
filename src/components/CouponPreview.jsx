@@ -2,15 +2,33 @@ import React from 'react'
 import { Tooltip } from '@mui/material';
 import { utilService } from '../services/util.service';
 
-export function CouponPreview({ coupon }) {
+export function CouponPreview({ coupon, searchText }) {
     const descLimit = 50
     const isDescTooLong = coupon.description.length > descLimit
     const formattedDate = utilService.formatDate(coupon.expiryDate)
 
+    // Function to get highlighted text
+    function getHighlightedText(text, highlight) {
+        if (!highlight) return text
+    
+        const regex = new RegExp(`(${highlight})`, 'gi')
+        const parts = text.split(regex)
+    
+        return parts.map((part, index) =>
+            regex.test(part) ? (
+                <span key={index} className='highlight'>
+                    {part}
+                </span>
+            ) : (
+                part
+            )
+        )
+    }
+    
     return (
         <>
-            <td>{coupon.createdBy.fullname}</td>
-            <td>{coupon.code}</td>
+      <td>{getHighlightedText(coupon.createdBy.fullname, searchText)}</td>
+      <td>{getHighlightedText(coupon.code, searchText)}</td>
 
             {/* Conditionally render tooltip for description */}
             {isDescTooLong ? (
@@ -21,7 +39,7 @@ export function CouponPreview({ coupon }) {
                 </Tooltip>
             ) : (
                 <td className="description">
-                    {coupon.description.length > 50 ? `${coupon.description.slice(0, 50)}...` : coupon.description}
+                    {coupon.description.length > 50 ? `${coupon.description.slice(0, 50)}...` : getHighlightedText(coupon.description, searchText)}
                 </td>
             )}
 

@@ -135,6 +135,7 @@ function _applyFilters(coupons, filterBy) {
         coupons = coupons.filter(coupon =>
             regex.test(coupon.name) ||
             regex.test(coupon.code) ||
+            regex.test(coupon.createdBy.fullname) ||
             regex.test(coupon.description)
         )
     }

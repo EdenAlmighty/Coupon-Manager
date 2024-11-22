@@ -5,6 +5,10 @@ Coupon Manager is a user-friendly application for managing and organizing discou
 ## Live Version
 Coupon Manager is live and accessible <a href="https://edenalmighty.github.io/Coupon-Manager/" target="_blank">here</a>.
 
+## Default Login Credentials
+> - **Username:** admin
+> - **Password:** 123
+
 ## Main Features
 
 > - **Create & Edit Coupons:** Easily add or modify coupons with essential details like discount type, value, and expiration date.

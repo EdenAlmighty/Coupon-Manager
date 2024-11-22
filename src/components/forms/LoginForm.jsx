@@ -40,7 +40,7 @@ export default function LoginForm({ onLogin }) {
                 type="text"
                 name="username"
                 value={userCred.username}
-                placeholder="Enter your username"
+                placeholder="Username or 'admin'"
                 onChange={handleChange}
                 error={errors.username}
                 ref={usernameRef}
@@ -50,7 +50,7 @@ export default function LoginForm({ onLogin }) {
                 type="password"
                 name="password"
                 value={userCred.password}
-                placeholder="Enter your password"
+                placeholder="Password or '123'"
                 onChange={handleChange}
                 error={errors.password}
             />

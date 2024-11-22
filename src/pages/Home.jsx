@@ -3,6 +3,7 @@ import CustomModal from "../components/modals/CustomModal"
 import LoginForm from "../components/forms/LoginForm"
 import { useNavigate } from "react-router-dom"
 import { useUser } from "../hooks/useUser"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 
 export default function Home({ login }) {
     const [isModalOpen, setIsModalOpen] = useState(true)
@@ -23,9 +24,10 @@ export default function Home({ login }) {
             await login(userCred)
             handleClose()
             navigate("/coupons")
+            showSuccessMsg(`Welcome back, ${userCred.username}!`)
         } catch (err) {
+            showErrorMsg('Login failed. Please try again.')
             console.error("Login error:", err)
-            alert("Login failed. Please try again.")
         }
     }
 

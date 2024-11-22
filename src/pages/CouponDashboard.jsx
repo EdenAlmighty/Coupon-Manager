@@ -7,6 +7,7 @@ import { useLoading } from "../hooks/useLoading"
 import CustomModal from "../components/modals/CustomModal"
 import { userService } from "../services/user.service"
 import { useUser } from "../hooks/useUser"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 
 export default function CouponDashboard() {
     const [coupons, setCoupons] = useState([])
@@ -44,7 +45,9 @@ export default function CouponDashboard() {
         try {
             const updatedCoupons = await couponService.remove(couponId)
             setCoupons(updatedCoupons)
+            showSuccessMsg(`Coupon removed successfully!`)
         } catch (err) {
+            showErrorMsg('Failed to remove coupon')
             console.error("Failed to remove coupon:", err)
         }
     }
@@ -65,8 +68,9 @@ export default function CouponDashboard() {
             setCouponToEdit(null)
             setIsModalOpen(false)
             loadCoupons()
-
+            showSuccessMsg(`Coupon ${coupon.code} saved successfully!`)
         } catch (err) {
+            showErrorMsg('Failed to save coupon')
             console.error("Failed to save coupon:", err)
         }
     }

@@ -3,6 +3,7 @@ import { userService } from "../services/user.service"
 import { UserList } from "../components/UserList"
 import UserForm from "../components/forms/UserForm"
 import CustomModal from "../components/modals/CustomModal"
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service"
 
 export default function UsersPage() {
     const [users, setUsers] = useState([])
@@ -35,7 +36,9 @@ export default function UsersPage() {
             loadUsers()
             setIsModalOpen(false)
             setUserToEdit(null)
+            showSuccessMsg(`User ${user.username} saved successfully!`)
         } catch (err) {
+            showErrorMsg('Failed to save user')
             console.error("Failed to save user:", err)
         }
     }
@@ -44,7 +47,9 @@ export default function UsersPage() {
         try {
             await userService.remove(userId)
             setUsers(prevUsers => prevUsers.filter(user => user._id !== userId))
+            showSuccessMsg(`User removed successfully!`)
         } catch (err) {
+            showErrorMsg('Failed to delete user')
             console.error("Failed to delete user:", err)
         }
     }
